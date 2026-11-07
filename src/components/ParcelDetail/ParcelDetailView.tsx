@@ -33,7 +33,7 @@ const ParcelDetailView = ({ model: m, step, accepted, busy, error, onStart, onBa
           {m.mode === 'available' && step === 'confirm' && (
             <>
               <h2 className="h2">Confirmer la réservation</h2>
-              <dl className="kv"><dt>Loyer {m.season}</dt><dd>{m.rent}</dd><dt>Frais de service</dt><dd>{m.fee}</dd><dt><b>Total</b></dt><dd><b>{m.total}</b></dd></dl>
+              <dl className="kv"><dt>Participation {m.season}</dt><dd>{m.rent}</dd><dt>Frais de service</dt><dd>{m.fee}</dd><dt><b>Total</b></dt><dd><b>{m.total}</b></dd></dl>
               <Note tone="warn">Paiement simulé : aucun débit réel n'est effectué dans cette version de démonstration.</Note>
               <label className="flex items-start gap-2 text-[13px]">
                 <input type="checkbox" className="mt-0.5" checked={accepted} onChange={e => onAccept(e.target.checked)} />

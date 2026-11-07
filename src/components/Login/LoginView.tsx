@@ -17,7 +17,7 @@ const LoginView = ({ theme, email, blocked, error, onLogin, onLogout, onToggleTh
     </p>
     <div className="grid w-full gap-4 text-left sm:grid-cols-2">
       <div className="card pad"><h2 className="h2s">Je cherche un terrain</h2><p className="muted">Trouvez une parcelle près de chez vous, réservez-la en ligne et récoltez vos légumes.</p></div>
-      <div className="card pad"><h2 className="h2s">Je dépose une parcelle</h2><p className="muted">Louez la partie de votre jardin que vous ne cultivez pas et recevez un loyer en trois versements.</p></div>
+      <div className="card pad"><h2 className="h2s">Je dépose une parcelle</h2><p className="muted">Louez la partie de votre jardin que vous ne cultivez pas et recevez une participation en trois versements.</p></div>
     </div>
     {blocked ? (
       <>

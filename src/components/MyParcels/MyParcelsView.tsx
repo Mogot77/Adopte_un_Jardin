@@ -12,7 +12,7 @@ const MyParcelsView = ({ model, busyId, onOpen, onEdit, onWithdraw, onNew, onVal
     <div className="kpis">
       <div className="card kpi"><div className="l">Annonces en ligne</div><div className="v">{model.online}</div></div>
       <div className="card kpi"><div className="l">Locations en cours</div><div className="v">{model.rented}</div></div>
-      <div className="card kpi"><div className="l">Loyers validés</div><div className="v">{model.incomeLabel}</div></div>
+      <div className="card kpi"><div className="l">Participations validées</div><div className="v">{model.incomeLabel}</div></div>
     </div>
     {model.rows.length === 0 ? (
       <div className="card"><Empty>Vous n'avez pas encore d'annonce. Déposez une parcelle pour la proposer aux jardiniers de votre commune.</Empty></div>

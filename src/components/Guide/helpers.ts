@@ -5,7 +5,7 @@ import type { GuideModel } from './types'
 export const buildGuideModel = (): GuideModel => ({
   commission: COMMISSION_BANDS.map(b => ({
     label: b.label,
-    value: b.fixed !== undefined ? `${eur(b.fixed)} (forfait)` : `${((b.rate ?? 0) * 100).toLocaleString('fr-FR', { maximumFractionDigits: 1 })} % du loyer`,
+    value: b.fixed !== undefined ? `${eur(b.fixed)} (forfait)` : `${((b.rate ?? 0) * 100).toLocaleString('fr-FR', { maximumFractionDigits: 1 })} % de la participation`,
   })),
   payouts: PAYOUT_TRANCHES.map(t => ({ label: t.label, share: `${Math.round(t.share * 100)} %` })),
 })

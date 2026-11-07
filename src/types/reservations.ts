@@ -16,11 +16,11 @@ export type Reservation = {
   gardenerName: string
   /** Année culturale. */
   season: number
-  /** Loyer annuel, en euros. */
+  /** Participation annuelle, en euros. */
   price: number
   /** Frais de service payés par le jardinier, en euros. */
   fee: number
-  /** Montant payé par le jardinier (loyer + frais). */
+  /** Montant payé par le jardinier (participation + frais). */
   total: number
   status: ReservationStatus
   /** Tranches de versement déjà demandées par le propriétaire. */

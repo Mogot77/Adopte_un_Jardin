@@ -38,7 +38,7 @@ export type MyParcelsModel = {
   rows: MyParcelRow[]
   online: number
   rented: number
-  /** Loyers des locations validées. */
+  /** Participations des locations validées. */
   incomeLabel: string
 }
 

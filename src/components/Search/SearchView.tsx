@@ -18,7 +18,7 @@ const SearchView = ({ model, commune, radiusKm, radiusOptions, maxPrice, activeC
           {radiusOptions.map(r => <option key={r} value={r}>{r} km</option>)}
         </select>
       </Field>
-      <Field label="Loyer max. (€ / an)">
+      <Field label="Participation max. (€ / an)">
         <input className="in" type="number" min={0} inputMode="numeric" value={maxPrice} placeholder="Illimité" onChange={e => onMaxPrice(e.target.value)} />
       </Field>
     </div>

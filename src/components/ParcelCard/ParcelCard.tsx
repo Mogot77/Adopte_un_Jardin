@@ -2,7 +2,7 @@ import Chip from '@/components/ui/Chip'
 import Icon from '@/components/ui/Icon'
 import type { ParcelCardProps } from './types'
 
-/** Vignette d'annonce cliquable (photo, commune, surface, loyer annuel). */
+/** Vignette d'annonce cliquable (photo, commune, surface, participation annuelle). */
 const ParcelCard = ({ model: m, onOpen }: ParcelCardProps) => (
   <button type="button" className="card flex w-full gap-3 p-3 text-left hover:border-brand" onClick={() => onOpen(m.id)}>
     <div className="ph grid size-20 shrink-0 place-items-center overflow-hidden rounded-md bg-subtle text-faint sm:size-24">

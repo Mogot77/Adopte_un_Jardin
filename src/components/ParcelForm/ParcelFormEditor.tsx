@@ -12,7 +12,7 @@ import ParcelFormView from './ParcelFormView'
 
 type Props = { id: string | null; existing: Parcel | null; priv: ParcelPrivate | null }
 
-/** Saisie de l'annonce. Le loyer suit la surface (prix conseillé) tant que le propriétaire ne l'a pas modifié lui-même. */
+/** Saisie de l'annonce. La participation suit la surface (prix conseillé) tant que le propriétaire ne l'a pas modifié lui-même. */
 const ParcelFormEditor = ({ id, existing, priv }: Props) => {
   const { profile, toast } = useApp()
   const [draft, setDraft] = useState<ParcelDraft>(() => initialDraft(existing, priv, profile?.commune ?? null, profile?.phone ?? ''))

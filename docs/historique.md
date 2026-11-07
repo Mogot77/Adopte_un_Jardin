@@ -16,7 +16,7 @@ Mis à jour le 2026-11-07. À lire en premier pour reprendre le projet.
 8. **Cloudinary** : même compte que l'ancien projet (les valeurs sont copiées dans `.env.local`).
 
 ## Décisions prises
-- Commission payée par le jardinier en plus du loyer ; le propriétaire reçoit 100 % du loyer en 3 tranches (30 / 40 / 30 %). Barème dans `src/helpers/pricing.ts` (la tranche 150-200 € est une hypothèse).
+- Commission payée par le jardinier en plus de la participation ; le propriétaire reçoit 100 % de la participation en 3 tranches (30 / 40 / 30 %). Barème dans `src/helpers/pricing.ts` (la tranche 150-200 € est une hypothèse).
 - Prix conseillé environ 4 €/m²/an, fourchette autorisée ±50 %.
 - Adresse exacte et code de validation séparés de l'annonce publique (`adresses/{id}`, `codes/{id}`).
 - Inscription ouverte à tout compte Google à e-mail vérifié. Administrateur d'origine : `vallet.morgan@gmail.com` (en dur dans `firestore.rules` et `src/store/queries/users.ts`).

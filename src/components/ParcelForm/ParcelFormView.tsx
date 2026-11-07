@@ -19,7 +19,7 @@ const ParcelFormView = ({ draft: d, isEdit, commune, suggested, bounds, waterOpt
         <Field label="Description (facultatif)" className="sm:col-span-2"><textarea className="in" rows={3} value={d.description} onChange={e => onChange({ description: e.target.value })} /></Field>
         <div><span className="lbl">Commune du terrain</span><CommuneSelect {...commune} /></div>
         <Field label="Surface cultivable (m²)"><input className="in" type="number" min={10} inputMode="numeric" value={d.surface || ''} onChange={e => onChange({ surface: num(e.target.value) })} /></Field>
-        <Field label="Loyer pour l'année culturale (€)" hint={`Prix conseillé : ${eur(suggested)}. Fourchette autorisée : ${eur(bounds.min)} à ${eur(bounds.max)}.`}>
+        <Field label="Participation pour l'année culturale (€)" hint={`Prix conseillé : ${eur(suggested)}. Fourchette autorisée : ${eur(bounds.min)} à ${eur(bounds.max)}.`}>
           <input className="in" type="number" min={0} inputMode="numeric" value={d.pricePerYear || ''} onChange={e => onChange({ pricePerYear: num(e.target.value) })} />
         </Field>
         <Field label={`Photos (${d.photoUrls.length}/${maxPhotos})`} className="sm:col-span-2" hint={photoEnabled ? 'Une ou plusieurs photos ; la première sert de vignette.' : "L'envoi de photos n'est pas configuré (voir README)."}>

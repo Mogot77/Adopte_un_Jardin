@@ -31,7 +31,7 @@ export const buildParcelDetailModel = (p: Parcel, ctx: Ctx): ParcelDetailModel =
     photoUrls: p.photoUrls,
     rows: [
       { label: 'Surface', value: `${p.surface} m² (${surfaceRange(p.surface)})` },
-      { label: 'Loyer annuel', value: eur(p.pricePerYear) },
+      { label: 'Participation annuelle', value: eur(p.pricePerYear) },
       { label: 'Outils', value: p.toolsProvided ? (p.toolsPricePerYear > 0 ? `Fournis, ${eur(p.toolsPricePerYear)} / an` : 'Fournis (gratuits)') : 'Non fournis' },
       { label: 'Eau', value: WATER_LABELS[p.water] },
       { label: "Compteur d'eau", value: p.waterMeter ? 'Individuel' : 'Non' },

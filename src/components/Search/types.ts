@@ -17,7 +17,7 @@ export type SearchViewProps = {
   commune: CommuneSelectProps
   radiusKm: number
   radiusOptions: number[]
-  /** Loyer maximum saisi (chaîne vide = pas de limite). */
+  /** Participation maximum saisi (chaîne vide = pas de limite). */
   maxPrice: string
   activeCode: string | null
   /** Rayon dessiné sur la carte (absent si aucune commune). */

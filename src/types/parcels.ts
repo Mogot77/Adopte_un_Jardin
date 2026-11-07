@@ -15,7 +15,7 @@ export type Parcel = {
   commune: Commune
   /** Surface cultivable en m². */
   surface: number
-  /** Loyer pour une année culturale, en euros. */
+  /** Participation pour une année culturale, en euros. */
   pricePerYear: number
   toolsProvided: boolean
   /** Participation annuelle aux outils, en euros (0 = symbolique ou gratuit). */

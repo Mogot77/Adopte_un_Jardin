@@ -29,7 +29,7 @@ export const priceBounds = (surface: number): { min: number; max: number } => {
 
 const cents = (n: number): number => Math.round(n * 100) / 100
 
-/** Barème de la commission payée par le jardinier en plus du loyer (selon le loyer annuel perçu par le propriétaire). */
+/** Barème de la commission payée par le jardinier en plus de la participation (selon la participation annuelle perçue par le propriétaire). */
 export const COMMISSION_BANDS: { upTo: number; label: string; fixed?: number; rate?: number }[] = [
   { upTo: 50, label: "Jusqu'à 50 €", fixed: 2.5 },
   { upTo: 100, label: "Jusqu'à 100 €", rate: 0.05 },
@@ -38,7 +38,7 @@ export const COMMISSION_BANDS: { upTo: number; label: string; fixed?: number; ra
   { upTo: Infinity, label: 'Plus de 500 €', rate: 0.025 },
 ]
 
-/** Frais de service (en euros) ajoutés au loyer. */
+/** Frais de service (en euros) ajoutés à la participation. */
 export const commission = (price: number): number => {
   if (price <= 0) return 0
   const band = COMMISSION_BANDS.find(b => price <= b.upTo) ?? COMMISSION_BANDS[COMMISSION_BANDS.length - 1]
@@ -48,7 +48,7 @@ export const commission = (price: number): number => {
 export const eur = (n: number): string =>
   new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: Number.isInteger(n) ? 0 : 2 }).format(n)
 
-/** Le loyer est reversé au propriétaire en trois tranches sur l'année culturale. */
+/** La participation est reversée au propriétaire en trois tranches sur l'année culturale. */
 export const PAYOUT_TRANCHES: { key: PayoutKey; label: string; month: number; share: number }[] = [
   { key: 'mars', label: 'Mars', month: 3, share: 0.3 },
   { key: 'juin', label: 'Juin', month: 6, share: 0.4 },
@@ -57,7 +57,7 @@ export const PAYOUT_TRANCHES: { key: PayoutKey; label: string; month: number; sh
 
 export type PayoutRow = { key: PayoutKey; label: string; date: string; amount: number; available: boolean }
 
-/** Échéancier de versement du loyer. La dernière tranche absorbe l'arrondi. */
+/** Échéancier de versement de la participation. La dernière tranche absorbe l'arrondi. */
 export const payoutSchedule = (price: number, season: number, today: string = TODAY): PayoutRow[] => {
   let paid = 0
   return PAYOUT_TRANCHES.map((t, i) => {

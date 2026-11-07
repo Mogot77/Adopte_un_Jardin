@@ -20,8 +20,8 @@ Marché : la liste d'attente de la FNJFC en Île-de-France dépasse 4 200 person
 | Annonce | surface par gamme (10-50, 50-100, 100-150, 150+ m²), prix proposé par la plateforme (moyenne du secteur) et ajustable dans une limite, outils (de l'euro symbolique à X €/an), eau (cuves, compteur individuel), jours/horaires d'accès, nombre de personnes simultanées, sanitaires, équipements annexes, photo, adresse |
 | Confidentialité | l'adresse n'est communiquée qu'**après le prépaiement** |
 | Réservation | le jardinier choisit, confirme (prend connaissance des caractéristiques), paie en ligne ; il reçoit un **code** et les coordonnées du propriétaire ; le propriétaire est averti. Après une **première rencontre**, l'offre est acceptée ou refusée par validation du code |
-| Commission | payée **par le jardinier en plus du loyer** : forfait 2,5 € jusqu'à 50 €/an, 5 % jusqu'à 100 €, 4,5 % jusqu'à 150 €, 3 % au-delà de 200 €, 2,5 % au-delà de 500 € |
-| Versements | le propriétaire demande son virement ; le loyer lui est reversé en 3 tranches : **mars 30 %, juin 40 %, octobre 30 %** |
+| Commission | payée **par le jardinier en plus de la participation** : forfait 2,5 € jusqu'à 50 €/an, 5 % jusqu'à 100 €, 4,5 % jusqu'à 150 €, 3 % au-delà de 200 €, 2,5 % au-delà de 500 € |
+| Versements | le propriétaire demande son virement ; la participation lui est reversée en 3 tranches : **mars 30 %, juin 40 %, octobre 30 %** |
 | Recherche | par commune / périmètre ; la carte affiche un rond avec le **nombre de jardins** ; détails réservés aux inscrits |
 | Alertes | alerte quand un jardin apparaît dans le périmètre de recherche |
 | Tableau de bord jardinier | « j'ai planté » (récolte, conseils de plantation), maladies des plantes (mode d'emploi), photos de la parcelle |
@@ -35,7 +35,7 @@ Modèle économique complet (hors V0.1) : commission, partenariats matériel et 
 **Inclus**
 
 - Connexion Google, inscription (profil : nom, commune, « je cherche » et/ou « je propose » : un même compte peut faire les deux).
-- Recherche par commune + rayon, carte Leaflet à bulles (nombre de jardins par commune), filtre par loyer, liste d'annonces.
+- Recherche par commune + rayon, carte Leaflet à bulles (nombre de jardins par commune), filtre par participation, liste d'annonces.
 - Fiche d'annonce, dépôt / modification / retrait d'une parcelle (prix conseillé et fourchette, photo si Cloudinary est configuré).
 - Réservation atomique avec **paiement simulé**, frais de service selon le barème, code de validation, révélation de l'adresse et du téléphone après paiement, annulation par le jardinier avant validation.
 - Tableau de bord propriétaire : validation du code, échéancier mars/juin/octobre, demande de virement par tranche.

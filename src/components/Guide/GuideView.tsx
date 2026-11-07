@@ -19,21 +19,21 @@ const GuideView = ({ model }: GuideViewProps) => (
       <section className="card pad">
         <h2 className="h2s">Je dépose une parcelle</h2>
         <ol className="m-0 list-decimal pl-5 leading-relaxed">
-          <li>Je décris mon terrain : surface, loyer (un prix conseillé est proposé), outils, eau, accès, photos (jusqu'à 6).</li>
+          <li>Je décris mon terrain : surface, participation (un prix conseillé est proposé), outils, eau, accès, photos (jusqu'à 6).</li>
           <li>Mon adresse reste cachée tant qu'un jardinier n'a pas payé sa réservation.</li>
           <li>Après la première rencontre, je saisis le code remis par le jardinier pour valider la location.</li>
           <li>Je demande mes versements depuis « Mes parcelles ».</li>
         </ol>
         <table className="t mt-3 w-full" aria-label="Échéancier des versements">
-          <thead><tr><th>Versement</th><th>Part du loyer</th></tr></thead>
+          <thead><tr><th>Versement</th><th>Part de la participation</th></tr></thead>
           <tbody>{model.payouts.map(p => <tr key={p.label}><td>{p.label}</td><td>{p.share}</td></tr>)}</tbody>
         </table>
       </section>
       <section className="card pad">
         <h2 className="h2s">Frais de service</h2>
-        <p className="muted mb-2">Payés par le jardinier en plus du loyer, selon le loyer annuel. Le propriétaire perçoit l'intégralité du loyer.</p>
+        <p className="muted mb-2">Payés par le jardinier en plus de la participation, selon la participation annuelle. Le propriétaire perçoit l'intégralité de la participation.</p>
         <table className="t w-full" aria-label="Barème des frais de service">
-          <thead><tr><th>Loyer annuel</th><th>Frais de service</th></tr></thead>
+          <thead><tr><th>Participation annuelle</th><th>Frais de service</th></tr></thead>
           <tbody>{model.commission.map(c => <tr key={c.label}><td>{c.label}</td><td>{c.value}</td></tr>)}</tbody>
         </table>
       </section>

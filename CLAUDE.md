@@ -46,7 +46,7 @@ Vite 8, React 19, TypeScript strict, Tailwind CSS 4, Redux Toolkit, Firebase (Au
 - Le projet Firebase n'est pas encore créé : `.firebaserc` est vide.
 
 ## Points d'attention
-- **Le paiement est simulé** (V0.1) : pas de prestataire, pas d'e-mails, pas de virement réel. Frais et total sont calculés côté client (le loyer est contrôlé par les règles). À déplacer côté serveur avec le vrai paiement.
+- **Le paiement est simulé** (V0.1) : pas de prestataire, pas d'e-mails, pas de virement réel. Frais et total sont calculés côté client (la participation est contrôlée par les règles). À déplacer côté serveur avec le vrai paiement.
 - Confidentialité : l'adresse exacte vit dans `adresses/{id}` et le code de validation dans `codes/{id}`, jamais dans l'annonce publique.
 - Les requêtes Firestore portent une contrainte d'égalité exigée par les règles (`status == 'publiee'`, `ownerEmail == moi`...) : ne pas les retirer.
 - Préfixe des clés de stockage local : `adopte-jardin-` (thème : `adopte-jardin-theme`).

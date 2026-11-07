@@ -5,7 +5,7 @@ export type ParcelFormViewProps = {
   draft: ParcelDraft
   isEdit: boolean
   commune: CommuneSelectProps
-  /** Loyer annuel conseillé pour la surface saisie, et bornes autorisées. */
+  /** Participation annuelle conseillé pour la surface saisie, et bornes autorisées. */
   suggested: number
   bounds: { min: number; max: number }
   waterOptions: { value: WaterAccess; label: string }[]

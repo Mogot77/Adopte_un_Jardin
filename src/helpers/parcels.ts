@@ -14,7 +14,7 @@ export const RADIUS_OPTIONS = [5, 10, 20, 50]
 export type SearchFilters = {
   commune: Commune | null
   radiusKm: number
-  /** Loyer annuel maximum (null = pas de limite). */
+  /** Participation annuelle maximum (null = pas de limite). */
   maxPrice: number | null
   /** Code d'une commune choisie en cliquant sur une bulle de la carte (null = toutes). */
   activeCode: string | null
@@ -53,7 +53,7 @@ export const draftIssues = (d: ParcelDraft): string[] => {
   if (!(d.surface >= MIN_SURFACE)) issues.push(`La surface minimale est de ${MIN_SURFACE} m².`)
   else {
     const { min, max } = priceBounds(d.surface)
-    if (!(d.pricePerYear >= min && d.pricePerYear <= max)) issues.push(`Le loyer annuel doit être compris entre ${min} € et ${max} € pour cette surface.`)
+    if (!(d.pricePerYear >= min && d.pricePerYear <= max)) issues.push(`Le participation annuelle doit être compris entre ${min} € et ${max} € pour cette surface.`)
   }
   if (!d.access.trim()) issues.push("Indiquez les jours et horaires d'accès.")
   if (!(d.maxPeople >= 1)) issues.push('Indiquez le nombre de personnes pouvant être présentes en même temps.')

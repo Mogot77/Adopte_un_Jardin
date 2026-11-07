@@ -21,4 +21,4 @@ Redux Toolkit. Un store par session connectée, créé par `AppProvider` (qui ou
 - Pas de suppression de réservation : elle passe à `annulee`.
 
 ## Règles de sécurité
-`firestore.rules` est la vraie barrière (le client est modifiable) : adresse et code ne sont lisibles que par les bonnes personnes, le loyer d'une réservation doit égaler celui de l'annonce, un propriétaire ne peut pas réserver sa propre annonce. Toute nouvelle collection ou tout nouveau champ écrit par un autre que le propriétaire doit y être déclaré. Penser à republier les règles dans la console après modification, et à les tester sur l'émulateur.
+`firestore.rules` est la vraie barrière (le client est modifiable) : adresse et code ne sont lisibles que par les bonnes personnes, la participation d'une réservation doit égaler celle de l'annonce, un propriétaire ne peut pas réserver sa propre annonce. Toute nouvelle collection ou tout nouveau champ écrit par un autre que le propriétaire doit y être déclaré. Penser à republier les règles dans la console après modification, et à les tester sur l'émulateur.

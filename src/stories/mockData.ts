@@ -1,5 +1,5 @@
 /* Données factices pour Storybook uniquement : ne jamais importer depuis le code de l'application. */
-import type { Commune, Parcel, ParcelPrivate, Profile, Reservation } from '@/types'
+import type { Commune, Parcel, ParcelPrivate, Plant, Profile, Reservation } from '@/types'
 
 export const mockCommunes: Commune[] = [
   { code: '77288', nom: 'Melun', lat: 48.5396, lon: 2.6606, dept: '77' },
@@ -39,4 +39,10 @@ export const mockReservations: Reservation[] = [
     ownerEmail: 'jean@example.com', ownerName: 'Jean Dupont', gardenerEmail: 'camille@example.com', gardenerName: 'Camille Martin',
     season: 2026, price: 900, fee: 22.5, total: 922.5, status: 'validee', payoutsRequested: ['mars'], createdAt: '2026-02-01T10:00:00.000Z', validatedAt: '2026-02-10T10:00:00.000Z',
   },
+]
+
+export const mockPlants: Plant[] = [
+  { id: 'pl1', ownerEmail: 'jean@example.com', ownerName: 'Jean Dupont', kind: 'plant', title: 'Plants de tomates cœur de bœuf', description: 'Plants robustes issus de mes semis, prêts à repiquer. À récupérer le week-end.', quantity: 8, commune: mockCommunes[0], phone: '06 98 76 54 32', photoUrls: [], status: 'disponible', createdAt: '2027-04-02T10:00:00.000Z', updatedAt: '2027-04-02T10:00:00.000Z' },
+  { id: 'pl2', ownerEmail: 'jean@example.com', ownerName: 'Jean Dupont', kind: 'graines', title: 'Graines de courge butternut', description: '', quantity: 3, commune: mockCommunes[1], phone: '', photoUrls: [], status: 'disponible', createdAt: '2027-03-20T10:00:00.000Z', updatedAt: '2027-03-20T10:00:00.000Z' },
+  { id: 'pl3', ownerEmail: 'lea@example.com', ownerName: 'Léa Bernard', kind: 'bouture', title: 'Boutures de géranium', description: 'Rouge et rose.', quantity: 1, commune: mockCommunes[2], phone: '', photoUrls: [], status: 'donne', createdAt: '2027-03-01T10:00:00.000Z', updatedAt: '2027-03-05T10:00:00.000Z' },
 ]

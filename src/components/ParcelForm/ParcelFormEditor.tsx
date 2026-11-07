@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useApp } from '@/hooks/useApp'
 import { useCommuneSelect } from '@/hooks/useCommuneSelect'
+import { usePhotoUpload } from '@/hooks/usePhotoUpload'
 import { go } from '@/hooks/useRoute'
 import { draftIssues } from '@/helpers/parcels'
 import { priceBounds, suggestedPrice } from '@/helpers/pricing'
-import { cloudinaryEnabled, MAX_PHOTOS, uploadPhoto } from '@/helpers/photos'
+import { cloudinaryEnabled, MAX_PHOTOS } from '@/helpers/photos'
 import { newParcelId, saveParcel } from '@/store/queries/parcels'
 import type { Parcel, ParcelDraft, ParcelPrivate } from '@/types'
 import { initialDraft, WATER_OPTIONS } from './helpers'
@@ -18,7 +19,6 @@ const ParcelFormEditor = ({ id, existing, priv }: Props) => {
   const [draft, setDraft] = useState<ParcelDraft>(() => initialDraft(existing, priv, profile?.commune ?? null, profile?.phone ?? ''))
   const [priceTouched, setPriceTouched] = useState(existing !== null)
   const [issues, setIssues] = useState<string[]>([])
-  const [uploading, setUploading] = useState(false)
   const [saving, setSaving] = useState(false)
   const commune = useCommuneSelect(draft.commune, c => setDraft(d => ({ ...d, commune: c })))
 
@@ -31,21 +31,7 @@ const ParcelFormEditor = ({ id, existing, priv }: Props) => {
     })
   }
 
-  const photos = (files: File[]) => {
-    const room = MAX_PHOTOS - draft.photoUrls.length
-    if (files.length > room) toast(`Maximum ${MAX_PHOTOS} photos : les suivantes sont ignorées.`, 'error')
-    setUploading(true)
-    Promise.allSettled(files.slice(0, Math.max(0, room)).map(uploadPhoto))
-      .then(results => {
-        const urls = results.flatMap(r => (r.status === 'fulfilled' ? [r.value] : []))
-        const failed = results.find(r => r.status === 'rejected')
-        if (urls.length > 0) setDraft(d => ({ ...d, photoUrls: [...d.photoUrls, ...urls].slice(0, MAX_PHOTOS) }))
-        if (failed && failed.status === 'rejected') toast(failed.reason instanceof Error ? failed.reason.message : "Envoi d'une photo impossible.", 'error')
-      })
-      .finally(() => setUploading(false))
-  }
-
-  const removePhoto = (index: number) => setDraft(d => ({ ...d, photoUrls: d.photoUrls.filter((_, i) => i !== index) }))
+  const photos = usePhotoUpload(draft.photoUrls, change => setDraft(d => ({ ...d, photoUrls: change(d.photoUrls) })))
 
   const submit = () => {
     const found = draftIssues(draft)
@@ -60,8 +46,8 @@ const ParcelFormEditor = ({ id, existing, priv }: Props) => {
   return (
     <ParcelFormView
       draft={draft} isEdit={existing !== null} commune={commune} suggested={suggestedPrice(draft.surface)} bounds={priceBounds(draft.surface)}
-      waterOptions={WATER_OPTIONS} photoEnabled={cloudinaryEnabled} maxPhotos={MAX_PHOTOS} uploading={uploading} saving={saving} issues={issues}
-      onChange={change} onPhotos={photos} onRemovePhoto={removePhoto} onSubmit={submit} onCancel={() => go('#/mes-parcelles')}
+      waterOptions={WATER_OPTIONS} photoEnabled={cloudinaryEnabled} maxPhotos={MAX_PHOTOS} uploading={photos.uploading} saving={saving} issues={issues}
+      onChange={change} onPhotos={photos.add} onRemovePhoto={photos.remove} onSubmit={submit} onCancel={() => go('#/mes-parcelles')}
     />
   )
 }

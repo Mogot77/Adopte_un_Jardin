@@ -8,10 +8,10 @@ Redux Toolkit. Un store par session connectée, créé par `AppProvider` (qui ou
 - `selectors/` : `selectProfile`, `selectOpenParcels`, `selectMyParcels`, `selectAllParcels` (fusion sans doublon), réservations, codes, toasts.
 - `thunks/` : `toast`.
 - `providers/` : `AppProvider` (store + synchro), `AuthProvider` + `authContext` (compte Google, e-mail vérifié obligatoire).
-- `queries/` : accès réseau. `firebase.ts` (init, Auth, Firestore avec cache persistant), `sync.ts` (écouteurs), `users.ts` (profil), `parcels.ts` (annonces, coordonnées privées), `reservations.ts` (réservation, annulation, validation, versements), `communes.ts` (API publique geo.api.gouv.fr).
+- `queries/` : accès réseau. `firebase.ts` (init, Auth, Firestore avec cache persistant), `sync.ts` (écouteurs), `users.ts` (profil), `parcels.ts` (annonces, coordonnées privées), `reservations.ts` (réservation, annulation, validation, versements), `plants.ts` (dons de plantes : enregistrement, « c'est donné », suppression), `communes.ts` (API publique geo.api.gouv.fr).
 
 ## Synchro Firestore (`queries/sync.ts`)
-Écouteurs temps réel ouverts à la connexion : profil, annonces publiées (`status == 'publiee'`), mes annonces (`ownerEmail == moi`), annonces que j'ai réservées (`gardenerEmail == moi`), réservations en tant que propriétaire et que jardinier, mes codes. **Chaque requête porte une contrainte d'égalité** : les règles de sécurité l'exigent pour autoriser une lecture de liste. Les `toX` de `queries/` lisent les documents de façon tolérante (valeurs par défaut) : on ne fait pas confiance à la forme des données stockées.
+Écouteurs temps réel ouverts à la connexion : profil, annonces publiées (`status == 'publiee'`), mes annonces (`ownerEmail == moi`), annonces que j'ai réservées (`gardenerEmail == moi`), réservations en tant que propriétaire et que jardinier, mes codes, dons de plantes disponibles (`status == 'disponible'`) et mes dons (`ownerEmail == moi`). **Chaque requête porte une contrainte d'égalité** : les règles de sécurité l'exigent pour autoriser une lecture de liste. Les `toX` de `queries/` lisent les documents de façon tolérante (valeurs par défaut) : on ne fait pas confiance à la forme des données stockées.
 
 ## Écritures
 - Dépôt : `saveParcel` écrit l'annonce publique et ses coordonnées privées (`adresses/{id}`) dans un même lot.

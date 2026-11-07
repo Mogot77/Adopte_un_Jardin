@@ -4,6 +4,7 @@ import ScheduleField from '@/components/ui/ScheduleField'
 import Field from '@/components/ui/Field'
 import Note from '@/components/ui/Note'
 import PageHead from '@/components/ui/PageHead'
+import PhotoPicker from '@/components/ui/PhotoPicker'
 import { eur } from '@/helpers/pricing'
 import type { ParcelFormViewProps } from './types'
 
@@ -23,23 +24,7 @@ const ParcelFormView = ({ draft: d, isEdit, commune, suggested, bounds, waterOpt
         <Field label="Participation pour l'année culturale (€)" hint={`Prix conseillé : ${eur(suggested)}. Fourchette autorisée : ${eur(bounds.min)} à ${eur(bounds.max)}.`}>
           <input className="in" type="number" min={0} inputMode="numeric" value={d.pricePerYear || ''} onChange={e => onChange({ pricePerYear: num(e.target.value) })} />
         </Field>
-        <Field label={`Photos (${d.photoUrls.length}/${maxPhotos})`} className="sm:col-span-2" hint={photoEnabled ? 'Une ou plusieurs photos ; la première sert de vignette.' : "L'envoi de photos n'est pas configuré (voir README)."}>
-          <div className="stack" style={{ '--gap': '8px' } as React.CSSProperties}>
-            {d.photoUrls.length > 0 && (
-              <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                {d.photoUrls.map((u, i) => (
-                  <li key={u} className="relative">
-                    <img src={u} alt={`Photo ${i + 1} de la parcelle`} className="h-28 w-full rounded-lg object-cover" />
-                    <button type="button" className="btn absolute right-1 top-1 !min-h-0 !px-2 !py-0.5 text-xs" aria-label={`Retirer la photo ${i + 1}`} onClick={() => onRemovePhoto(i)}>Retirer</button>
-                  </li>
-                ))}
-              </ul>
-            )}
-            <input className="in" type="file" accept="image/*" multiple disabled={!photoEnabled || uploading || d.photoUrls.length >= maxPhotos}
-              onChange={e => { const f = Array.from(e.target.files ?? []); e.target.value = ''; if (f.length > 0) onPhotos(f) }} />
-            {uploading && <span className="text-xs text-muted">Envoi en cours…</span>}
-          </div>
-        </Field>
+        <PhotoPicker photos={d.photoUrls} maxPhotos={maxPhotos} enabled={photoEnabled} uploading={uploading} onPick={onPhotos} onRemove={onRemovePhoto} />
       </section>
 
       <section className="card pad grid gap-4 sm:grid-cols-2" aria-label="Outils et eau">

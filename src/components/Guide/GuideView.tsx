@@ -46,6 +46,15 @@ const GuideView = ({ model }: GuideViewProps) => (
           <li>Je préviens le propriétaire en cas de difficulté, et je rends le terrain propre en fin de saison.</li>
         </ul>
       </section>
+      <section className="card pad">
+        <h2 className="h2s">J'échange des plantes</h2>
+        <ol className="m-0 list-decimal pl-5 leading-relaxed">
+          <li>Dans « Échange de plantes », je cherche des plants, semis, graines ou boutures donnés près de chez moi.</li>
+          <li>Je clique sur « Écrire » pour contacter le donateur par e-mail et convenir d'un lieu de remise.</li>
+          <li>Pour donner, je publie une annonce (gratuite). Quand c'est fait, je clique sur « C'est donné ».</li>
+        </ol>
+        <p className="muted mt-2">Les dons sont strictement gratuits, sans commission. Retrouvez-vous dans un lieu public.</p>
+      </section>
       <Note tone="warn">Version de démonstration : le paiement est simulé, les e-mails de confirmation ne sont pas encore envoyés et les versements sont à effectuer manuellement.</Note>
     </div>
   </>

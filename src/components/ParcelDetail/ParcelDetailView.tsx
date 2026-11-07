@@ -1,6 +1,6 @@
 import Button from '@/components/ui/Button'
 import Chip from '@/components/ui/Chip'
-import Icon from '@/components/ui/Icon'
+import PhotoGallery from '@/components/ui/PhotoGallery'
 import Kv from '@/components/ui/Kv'
 import Note from '@/components/ui/Note'
 import type { ParcelDetailViewProps } from './types'
@@ -11,9 +11,7 @@ const ParcelDetailView = ({ model: m, step, accepted, busy, error, onStart, onBa
     <p className="crumb mb-2"><a href="#/" onClick={e => { e.preventDefault(); onSearch() }}>← Retour à la recherche</a></p>
     <div className="cols">
       <div className="col-main">
-        <div className="ph flex h-56 snap-x snap-mandatory items-center overflow-x-auto rounded-[10px] bg-subtle text-faint sm:h-72" tabIndex={0} aria-label="Photos de la parcelle (faire défiler)">
-          {m.photoUrls.length > 0 ? m.photoUrls.map((u, i) => <img key={u} src={u} alt={`Photo ${i + 1} sur ${m.photoUrls.length} : ${m.title}`} className="size-full shrink-0 snap-center object-cover" />) : <Icon name="leaf" size={48} />}
-        </div>
+        <PhotoGallery photos={m.photoUrls} label={m.title} />
         <div className="card pad">
           <h1 className="text-[22px]">{m.title}</h1>
           <p className="muted mb-4 mt-1">{m.communeLabel} · proposé par {m.ownerName}</p>

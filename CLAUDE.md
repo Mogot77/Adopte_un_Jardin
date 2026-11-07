@@ -28,7 +28,7 @@ Vite 8, React 19, TypeScript strict, Tailwind CSS 4, Redux Toolkit, Firebase (Au
 - `index.css` : thème (jetons CSS clair/sombre) et classes réutilisables (`card`, `btn`, `chip`, `kv`...)
 
 ## Écrans (routes par hash)
-`#/` recherche (carte + liste) · `#/parcelle/:id` fiche et réservation · `#/proposer[/:id]` dépôt / modification · `#/mes-parcelles` tableau de bord propriétaire · `#/mes-reservations` tableau de bord jardinier · `#/guide` mode d'emploi et charte. Sans profil, l'écran d'inscription (`Onboarding`) s'affiche d'abord.
+`#/` recherche (carte + liste) · `#/parcelle/:id` fiche et réservation · `#/proposer[/:id]` dépôt / modification · `#/mes-parcelles` tableau de bord propriétaire · `#/mes-reservations` tableau de bord jardinier · `#/echanges` échange de plantes (liste + mes dons) · `#/echanges/:id` fiche d'un don · `#/echanges/proposer[/:id]` dépôt / modification d'un don · `#/guide` mode d'emploi et charte. Sans profil, l'écran d'inscription (`Onboarding`) s'affiche d'abord.
 
 ## Règles générales
 - Noms de composants, fichiers et identifiants de code en anglais ; **commentaires de code en français** ; textes affichés en français.
@@ -42,7 +42,7 @@ Vite 8, React 19, TypeScript strict, Tailwind CSS 4, Redux Toolkit, Firebase (Au
 ## Configuration et déploiement
 - Variables `VITE_FIREBASE_*`, `VITE_CLOUDINARY_*` (facultatives : sans elles, pas d'envoi de photo) et `VITE_TODAY` (facultatif) : `.env.local` en dev (modèle `.env.example`), *Variables* GitHub Actions en prod. Sans Firebase l'app s'arrête avec un message clair.
 - Déploiement : GitHub Pages par `.github/workflows/deploy.yml` (lint, build, Storybook dans `dist/storybook`). `base` de Vite : `/Adopte_un_Jardin/` (à adapter au nom du dépôt GitHub).
-- Firestore : règles dans `firestore.rules` (publiées à la main dans la console, **jamais testées sur l'émulateur** : à faire avant toute mise en production). Administrateur d'origine codé en dur dans les règles et dans `store/queries/users.ts`. Toute nouvelle collection doit y être déclarée. Aucun index composite nécessaire (requêtes à égalité simple).
+- Collections Firestore : `users`, `parcelles`, `adresses`, `reservations`, `codes`, `plantes` (dons gratuits). Firestore : règles dans `firestore.rules` (publiées à la main dans la console, **jamais testées sur l'émulateur** : à faire avant toute mise en production). Administrateur d'origine codé en dur dans les règles et dans `store/queries/users.ts`. Toute nouvelle collection doit y être déclarée. Aucun index composite nécessaire (requêtes à égalité simple).
 - Le projet Firebase n'est pas encore créé : `.firebaserc` est vide.
 
 ## Points d'attention

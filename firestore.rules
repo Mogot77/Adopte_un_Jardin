@@ -89,6 +89,15 @@ service cloud.firestore {
       );
     }
 
+    // Troc de plantes : dons gratuits visibles par tout membre connecté tant qu'ils sont disponibles ; sinon par le donateur.
+    match /plantes/{id} {
+      allow read: if verified() && (resource.data.status == 'disponible' || resource.data.ownerEmail == mail() || isAdmin());
+      allow create: if verified() && request.resource.data.ownerEmail == mail() && request.resource.data.status == 'disponible';
+      allow update: if verified() && resource.data.ownerEmail == mail() && request.resource.data.ownerEmail == mail() &&
+        request.resource.data.status in ['disponible', 'donne'];
+      allow delete: if verified() && (resource.data.ownerEmail == mail() || isAdmin());
+    }
+
     // Code de validation : lisible par le seul jardinier (le propriétaire ne le connaît qu'après la rencontre).
     match /codes/{id} {
       allow read: if verified() && resource.data.gardenerEmail == mail();

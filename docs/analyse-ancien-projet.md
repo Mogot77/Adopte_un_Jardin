@@ -77,3 +77,10 @@ Modèle économique complet (hors V0.1) : commission, partenariats matériel et 
 | `codes/{parcelId__email}` | code de validation | jardinier seulement |
 
 Les règles sont dans `firestore.rules` (non testées sur l'émulateur à ce stade).
+
+## Ajout V0.1 : échange de plantes (hors étude d'origine)
+- Dons **gratuits** de plants, semis, graines et boutures entre membres connectés : aucune commission, aucun paiement.
+- Une annonce : titre, nature, quantité, description, photos (jusqu'à 6), commune, téléphone facultatif. Pas d'adresse publiée : la remise se convient entre les personnes.
+- Contact par e-mail (lien `mailto:` prérempli) ; aucune messagerie interne ni réservation. Le donateur marque « C'est donné » pour retirer l'annonce de la liste.
+- Recherche par commune + rayon et par nature. Collection Firestore `plantes` (lecture : tout membre connecté tant que l'annonce est disponible).
+- Pistes : demande « ça m'intéresse » suivie dans l'application, avis, rappel des dons non clos, échanges (troc) en plus du don.

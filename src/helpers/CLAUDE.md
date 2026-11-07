@@ -8,6 +8,7 @@ Fonctions utilisées par **plusieurs** composants (ou par le store). Une fonctio
 - `geo.ts` : distance (haversine), centrage et zoom de carte.
 - `ids.ts` : identifiant de réservation (`<parcelId>__<e-mail>`, utilisé par les règles Firestore) et code de validation.
 - `schedule.ts` : jours et plages horaires d'accès (`formatAccess` donne le résumé « Lun–Ven 8h–20h »), utilisé par `ui/ScheduleField` et par la validation du dépôt.
+- `plants.ts` : échange de plantes (natures, `quantityLabel`, `filterPlants`, `plantIssues`).
 - `photos.ts` : redimensionnement et envoi Cloudinary (désactivé sans configuration).
 - `theme.ts` : choix clair/sombre (le hook est dans `hooks/useTheme.ts`). `roles.ts` : rôles des comptes.
 

@@ -17,6 +17,9 @@ const ParcelDetail = lazy(() => import('@/components/ParcelDetail'))
 const ParcelForm = lazy(() => import('@/components/ParcelForm'))
 const MyParcels = lazy(() => import('@/components/MyParcels'))
 const MyReservations = lazy(() => import('@/components/MyReservations'))
+const Swap = lazy(() => import('@/components/Swap'))
+const PlantDetail = lazy(() => import('@/components/PlantDetail'))
+const PlantForm = lazy(() => import('@/components/PlantForm'))
 const Guide = lazy(() => import('@/components/Guide'))
 
 /** Routes par hash. Ajouter ici les nouveaux écrans. */
@@ -26,10 +29,16 @@ const Routes = () => {
   if (detail) return <ParcelDetail key={detail[1]} id={detail[1]} />
   const edit = /^\/proposer\/([^/]+)$/.exec(path)
   if (edit) return <ParcelForm key={edit[1]} id={edit[1]} />
+  const plantEdit = /^\/echanges\/proposer\/([^/]+)$/.exec(path)
+  if (plantEdit) return <PlantForm key={plantEdit[1]} id={plantEdit[1]} />
+  const plant = /^\/echanges\/([^/]+)$/.exec(path)
+  if (plant && plant[1] !== 'proposer') return <PlantDetail key={plant[1]} id={plant[1]} />
   switch (path) {
     case '/proposer': return <ParcelForm />
     case '/mes-parcelles': return <MyParcels />
     case '/mes-reservations': return <MyReservations />
+    case '/echanges': return <Swap />
+    case '/echanges/proposer': return <PlantForm />
     case '/guide': return <Guide />
     default: return <Search />
   }

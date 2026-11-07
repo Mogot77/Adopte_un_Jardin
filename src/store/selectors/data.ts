@@ -7,6 +7,8 @@ export const selectOpenParcels = (s: RootState) => s.data.parcels.open
 export const selectMyParcels = (s: RootState) => s.data.parcels.mine
 export const selectOwnerReservations = (s: RootState) => s.data.reservations.asOwner
 export const selectGardenerReservations = (s: RootState) => s.data.reservations.asGardener
+export const selectOpenPlants = (s: RootState) => s.data.plants.open
+export const selectMyPlants = (s: RootState) => s.data.plants.mine
 export const selectCodes = (s: RootState) => s.data.codes
 
 const selectRented = (s: RootState) => s.data.parcels.rented

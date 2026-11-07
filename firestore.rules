@@ -1,0 +1,100 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function verified() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+    function mail() {
+      return request.auth.token.email.lower();
+    }
+    function isBootstrap() {
+      return mail() == 'vallet.morgan@gmail.com';
+    }
+    function isAdmin() {
+      return verified() && (isBootstrap() ||
+        (exists(/databases/$(database)/documents/users/$(mail())) &&
+         get(/databases/$(database)/documents/users/$(mail())).data.role == 'admin'));
+    }
+    function parcelDoc(id) {
+      return get(/databases/$(database)/documents/parcelles/$(id));
+    }
+
+    // Profils : chacun crée et modifie le sien (jamais avec le rôle admin). Lecture réservée au titulaire et aux admins.
+    match /users/{email} {
+      allow read: if verified() && (email == mail() || isAdmin());
+      allow create: if verified() && email == mail() && request.resource.data.role == 'membre';
+      allow update: if verified() && ((email == mail() && request.resource.data.role == resource.data.role) || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    // Annonces : visibles par tout compte connecté tant qu'elles sont publiées ; sinon par le propriétaire et le jardinier concerné.
+    match /parcelles/{id} {
+      allow read: if verified() && (resource.data.status == 'publiee' ||
+        resource.data.ownerEmail == mail() || resource.data.gardenerEmail == mail() || isAdmin());
+      allow create: if verified() && request.resource.data.ownerEmail == mail() && request.resource.data.status == 'publiee'
+        && request.resource.data.gardenerEmail == '';
+      allow update: if verified() && (
+        // Le propriétaire modifie ou retire son annonce tant qu'elle n'est pas réservée.
+        (resource.data.ownerEmail == mail() && resource.data.status != 'reservee' &&
+          request.resource.data.ownerEmail == mail() && request.resource.data.status in ['publiee', 'retiree'] &&
+          request.resource.data.gardenerEmail == '') ||
+        // Un jardinier réserve une annonce publiée...
+        (resource.data.ownerEmail != mail() && resource.data.status == 'publiee' &&
+          request.resource.data.status == 'reservee' && request.resource.data.gardenerEmail == mail() &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'gardenerEmail', 'updatedAt'])) ||
+        // ... ou libère celle qu'il avait réservée.
+        (resource.data.gardenerEmail == mail() && resource.data.status == 'reservee' &&
+          request.resource.data.status == 'publiee' && request.resource.data.gardenerEmail == '' &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'gardenerEmail', 'updatedAt']))
+      );
+      allow delete: if verified() && ((resource.data.ownerEmail == mail() && resource.data.status != 'reservee') || isAdmin());
+    }
+
+    // Adresse exacte et téléphone : propriétaire, administrateurs, et jardinier ayant payé sa réservation.
+    match /adresses/{id} {
+      allow read: if verified() && (resource.data.ownerEmail == mail() || isAdmin() ||
+        (exists(/databases/$(database)/documents/reservations/$(id + '__' + mail())) &&
+         get(/databases/$(database)/documents/reservations/$(id + '__' + mail())).data.status in ['payee', 'validee']));
+      allow create: if verified() && request.resource.data.ownerEmail == mail() &&
+        parcelDoc(id).data.ownerEmail == mail();
+      allow update, delete: if verified() && resource.data.ownerEmail == mail();
+    }
+
+    // Réservations (paiement simulé dans la V0.1).
+    match /reservations/{id} {
+      function newBooking() {
+        return request.resource.data.gardenerEmail == mail() &&
+          id == request.resource.data.parcelId + '__' + mail() &&
+          request.resource.data.status == 'payee' &&
+          request.resource.data.ownerEmail != mail() &&
+          parcelDoc(request.resource.data.parcelId).data.status == 'publiee' &&
+          parcelDoc(request.resource.data.parcelId).data.ownerEmail == request.resource.data.ownerEmail &&
+          request.resource.data.price == parcelDoc(request.resource.data.parcelId).data.pricePerYear;
+      }
+      allow read: if verified() && (resource.data.gardenerEmail == mail() || resource.data.ownerEmail == mail() || isAdmin());
+      allow create: if verified() && newBooking();
+      allow update: if verified() && (
+        // Le propriétaire valide avec le code remis au jardinier après la première rencontre...
+        (resource.data.ownerEmail == mail() && resource.data.status == 'payee' && request.resource.data.status == 'validee' &&
+          request.resource.data.codeEntered == get(/databases/$(database)/documents/codes/$(id)).data.code &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'codeEntered', 'validatedAt'])) ||
+        // ... puis demande les versements.
+        (resource.data.ownerEmail == mail() && resource.data.status == 'validee' &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['payoutsRequested'])) ||
+        // Le jardinier annule tant que le code n'est pas validé.
+        (resource.data.gardenerEmail == mail() && resource.data.status == 'payee' && request.resource.data.status == 'annulee' &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'cancelledAt'])) ||
+        // Il peut re-réserver une annonce qu'il avait annulée.
+        (resource.data.gardenerEmail == mail() && resource.data.status == 'annulee' && newBooking())
+      );
+    }
+
+    // Code de validation : lisible par le seul jardinier (le propriétaire ne le connaît qu'après la rencontre).
+    match /codes/{id} {
+      allow read: if verified() && resource.data.gardenerEmail == mail();
+      allow create: if verified() && request.resource.data.gardenerEmail == mail() &&
+        id == request.resource.data.parcelId + '__' + mail();
+      allow update: if verified() && resource.data.gardenerEmail == mail() && request.resource.data.gardenerEmail == mail();
+    }
+  }
+}

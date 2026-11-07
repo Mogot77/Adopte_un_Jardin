@@ -1,0 +1,8 @@
+node_modules
+dist
+*.local
+.vite
+storybook-static
+
+# Archive de l ancien projet (2015-2016, ~500 Mo) : non versionnee
+docs/ancien_projet/

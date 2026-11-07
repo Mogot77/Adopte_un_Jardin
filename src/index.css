@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+
+  --color-page: #f4f6f3;
+  --color-surface: #ffffff;
+  --color-ink: #14201a;
+  --color-ink2: #34423a;
+  --color-muted: #5b6a61;
+  --color-faint: #9aa7a0;
+  --color-line: #e1e7e2;
+  --color-line2: #edf1ee;
+  --color-field: #c3cdc6;
+  --color-panel: #f8faf8;
+  --color-ro: #f5f7f5;
+  --color-subtle: #eff3f0;
+  --color-brand: #2f7d3a;
+  --color-brand-dark: #256230;
+  --color-brand-soft: #e4f3e6;
+  --color-brand-bg: #f3faf4;
+  --color-brand-line: #b8dcbd;
+  --color-danger: #b42318;
+  --color-danger-soft: #fdecea;
+  --color-danger-line: #e9a79f;
+  --color-danger-bg: #fef2f2;
+  --color-danger-border: #dc2626;
+  --color-warn: #b54708;
+  --color-warn-soft: #fef0e1;
+  --color-warn-bg: #fff8f1;
+  --color-warn-line: #f2c99a;
+  --color-warn-ink: #7a3306;
+  --color-good: #15803d;
+  --color-good-soft: #e7f6ec;
+  --color-focus: #86c68f;
+  --color-link-hover: #1c4a24;
+}
+
+/* Thème sombre : même jeu de jetons, valeurs adaptées. Choisi par l'attribut data-theme sur <html> (voir helpers/theme.ts). */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --color-page: #0d1511;
+  --color-surface: #16201b;
+  --color-ink: #e6ede8;
+  --color-ink2: #cad6ce;
+  --color-muted: #96a79c;
+  --color-faint: #64766b;
+  --color-line: #263329;
+  --color-line2: #1e2a22;
+  --color-field: #3a4b40;
+  --color-panel: #121b16;
+  --color-ro: #1a251f;
+  --color-subtle: #1e2a22;
+  --color-brand: #4ade80;
+  --color-brand-dark: #34c76a;
+  --color-brand-soft: #173222;
+  --color-brand-bg: #12261b;
+  --color-brand-line: #2c5a3a;
+  --color-danger: #f87171;
+  --color-danger-soft: #3b1a1a;
+  --color-danger-line: #7f3b3b;
+  --color-danger-bg: #2a1517;
+  --color-danger-border: #ef4444;
+  --color-warn: #fb923c;
+  --color-warn-soft: #3a2412;
+  --color-warn-bg: #2a1d10;
+  --color-warn-line: #7a4a1a;
+  --color-warn-ink: #fdba74;
+  --color-good: #4ade80;
+  --color-good-soft: #12301f;
+  --color-focus: #2f9e57;
+  --color-link-hover: #86efac;
+}
+
+@layer base {
+  html, body { background: var(--color-page); }
+  body { font: 400 14px/1.4 var(--font-sans); color: var(--color-ink); }
+  a { color: var(--color-brand); }
+  a:hover { color: var(--color-link-hover); }
+  h1 { margin: 0; font-size: 24px; font-weight: 700; }
+  button { font-family: inherit; }
+  [hidden] { display: none !important; }
+  code { font: 12px var(--font-mono); background: var(--color-subtle); border-radius: 4px; padding: 1px 5px; }
+}
+
+/* Primitives réutilisées partout (composées d'utilitaires Tailwind) */
+@layer components {
+  .card { @apply bg-surface border border-line rounded-[10px]; }
+  .pad { @apply p-5; }
+  .muted { @apply text-muted; }
+  .small { @apply text-xs; }
+  .lbl { @apply block text-xs font-semibold text-ink2 mb-1.5; }
+
+  .in { @apply flex items-center justify-between gap-2 w-full min-h-10 px-3 border border-field rounded-lg bg-surface text-sm text-ink text-left; }
+  .in:focus { @apply outline-2 outline-focus border-brand; }
+  .in.ro { @apply bg-ro border-line text-ink2; }
+  textarea.in { @apply block py-2.5 min-h-[72px] resize-y; }
+
+  .btn { @apply inline-flex items-center justify-center gap-2 h-[38px] px-[15px] rounded-lg text-[13px] font-semibold border border-field bg-surface text-ink no-underline cursor-pointer whitespace-nowrap hover:bg-ro hover:text-ink; }
+  .btn.btnp { @apply bg-brand border-brand text-surface hover:bg-brand-dark hover:text-surface; }
+  .btn.btnd { @apply text-danger border-danger-line; }
+  .btn:disabled { @apply opacity-45 cursor-not-allowed; }
+  .btn.btn-sm { @apply h-8 px-[11px] text-xs; }
+  .btn.btn-w { @apply w-full; }
+  .btn.btn-dash { @apply border-dashed text-brand; }
+
+  .chip { @apply inline-flex items-center h-[22px] px-[9px] rounded-[11px] text-[11px] font-bold whitespace-nowrap gap-1; }
+  .chip.ko { @apply bg-danger-soft text-danger; }
+  .chip.wa { @apply bg-warn-soft text-warn; }
+  .chip.bl { @apply bg-brand-soft text-brand; }
+  .chip.ok { @apply bg-good-soft text-good; }
+  .chip.gr { @apply bg-line2 text-ink2; }
+
+  .row { @apply flex flex-wrap gap-3 items-center; }
+  .between { @apply justify-between; }
+  .stack { @apply flex flex-col; gap: var(--gap, 16px); }
+  .pagehead { @apply flex flex-wrap justify-between items-center gap-3 mb-5; }
+  .pagehead .t { @apply flex flex-wrap items-center gap-2.5; }
+
+  .empty { @apply p-7 text-center text-muted text-[13px]; }
+  .note { @apply flex gap-2.5 items-start bg-panel border border-line rounded-lg px-3 py-2.5 text-[13px]; }
+  .note.warn { @apply bg-warn-bg border-warn-line text-warn-ink; }
+  .note.info { @apply bg-brand-bg border-brand-line; }
+}
+
+/* Mise en page et éléments réutilisés par plusieurs écrans */
+@layer components {
+  .crumb { @apply text-[13px] text-muted; }
+  .cols { @apply flex flex-wrap items-start gap-5; }
+  .col-main { @apply flex min-w-0 flex-col gap-5; flex: 999 1 560px; }
+  .col-side { @apply flex min-w-0 flex-col gap-4; flex: 1 1 300px; }
+  .kv { @apply m-0 grid grid-cols-[130px_minmax(0,1fr)] gap-x-3 gap-y-2 text-[13px] sm:grid-cols-[170px_minmax(0,1fr)]; }
+  .kv dt { @apply m-0 text-muted; }
+  .kv dd { @apply m-0; }
+  .kpis { @apply mb-4 grid gap-3.5; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .kpi { @apply px-[18px] py-4; }
+  .kpi .l { @apply text-xs text-muted; }
+  .kpi .v { @apply mt-1.5 text-[26px] font-bold; }
+  table.t { @apply w-full border-collapse; }
+  table.t th { @apply whitespace-nowrap border-b border-line bg-panel px-3 py-2.5 text-left text-xs font-semibold text-ink2; }
+  table.t td { @apply border-b border-line2 px-3 py-2.5 align-middle text-[13px]; }
+}
+
+/* Carte : bulles « nombre de jardins » par commune */
+.adj-bubble { background: transparent; border: 0; }
+.adj-bubble span {
+  display: grid; place-items: center; width: 100%; height: 100%; border-radius: 9999px;
+  background: var(--color-brand); color: var(--color-surface); font-weight: 700; font-size: 13px;
+  border: 2px solid var(--color-surface); box-shadow: 0 1px 4px rgb(0 0 0 / 35%);
+}
+.adj-bubble.on span { background: var(--color-ink); }
+html[data-theme="dark"] .leaflet-container { background: #1b2620; }
+html[data-theme="dark"] .leaflet-tile-pane { filter: brightness(0.75) contrast(1.05) saturate(0.85); }

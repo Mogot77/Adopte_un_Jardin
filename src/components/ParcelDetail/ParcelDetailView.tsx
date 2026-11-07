@@ -11,8 +11,8 @@ const ParcelDetailView = ({ model: m, step, accepted, busy, error, onStart, onBa
     <p className="crumb mb-2"><a href="#/" onClick={e => { e.preventDefault(); onSearch() }}>← Retour à la recherche</a></p>
     <div className="cols">
       <div className="col-main">
-        <div className="ph grid h-56 place-items-center overflow-hidden rounded-[10px] bg-subtle text-faint sm:h-72">
-          {m.photoUrl ? <img src={m.photoUrl} alt={`Photo de la parcelle : ${m.title}`} className="size-full object-cover" /> : <Icon name="leaf" size={48} />}
+        <div className="ph flex h-56 snap-x snap-mandatory items-center overflow-x-auto rounded-[10px] bg-subtle text-faint sm:h-72" tabIndex={0} aria-label="Photos de la parcelle (faire défiler)">
+          {m.photoUrls.length > 0 ? m.photoUrls.map((u, i) => <img key={u} src={u} alt={`Photo ${i + 1} sur ${m.photoUrls.length} : ${m.title}`} className="size-full shrink-0 snap-center object-cover" />) : <Icon name="leaf" size={48} />}
         </div>
         <div className="card pad">
           <h1 className="text-[22px]">{m.title}</h1>

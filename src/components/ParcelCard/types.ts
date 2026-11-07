@@ -4,7 +4,7 @@ export type ParcelCardModel = {
   communeLabel: string
   surfaceLabel: string
   priceLabel: string
-  photoUrl: string
+  photoUrls: string[]
   /** Pastilles d'équipement (outils, eau...). */
   tags: string[]
   /** Distance au centre de recherche, déjà formatée (« 3,2 km »), ou vide. */

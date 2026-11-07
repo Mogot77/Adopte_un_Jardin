@@ -9,6 +9,11 @@ const PRIVATE = 'adresses'
 
 const str = (v: unknown): string => (typeof v === 'string' ? v : '')
 const num = (v: unknown): number => (typeof v === 'number' && Number.isFinite(v) ? v : 0)
+/** Liste d'URL de photos ; accepte l'ancien champ unique `photoUrl`. */
+const photos = (d: Record<string, unknown>): string[] => {
+  const list = Array.isArray(d.photoUrls) ? d.photoUrls.filter((u): u is string => typeof u === 'string' && u !== '') : []
+  return list.length > 0 ? list : str(d.photoUrl) ? [str(d.photoUrl)] : []
+}
 const water = (v: unknown): WaterAccess => (v === 'robinet' || v === 'cuve' ? v : 'aucune')
 const status = (v: unknown): Parcel['status'] => (v === 'reservee' || v === 'retiree' ? v : 'publiee')
 
@@ -33,7 +38,7 @@ export const toParcel = (id: string, d: Record<string, unknown>): Parcel | null 
     maxPeople: num(d.maxPeople),
     toilets: d.toilets === true,
     equipment: str(d.equipment),
-    photoUrl: str(d.photoUrl),
+    photoUrls: photos(d),
     status: status(d.status),
     gardenerEmail: str(d.gardenerEmail),
     createdAt: str(d.createdAt),

@@ -9,7 +9,7 @@ export type ParcelDetailModel = {
   description: string
   ownerName: string
   communeLabel: string
-  photoUrl: string
+  photoUrls: string[]
   rows: { label: string; value: string }[]
   mode: DetailMode
   /** Année culturale proposée à la réservation. */

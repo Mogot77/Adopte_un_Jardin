@@ -30,7 +30,8 @@ export type Parcel = {
   toilets: boolean
   /** Équipements complémentaires (abri, piscine, jeux...). */
   equipment: string
-  photoUrl: string
+  /** Photos de l'annonce (la première sert de vignette). */
+  photoUrls: string[]
   status: ParcelStatus
   /** E-mail du jardinier quand la parcelle est réservée, sinon chaîne vide. */
   gardenerEmail: string
@@ -49,7 +50,7 @@ export type ParcelPrivate = {
 /** Champs saisis dans le formulaire de dépôt d'une parcelle (la commune est vide tant qu'elle n'est pas choisie). */
 export type ParcelDraft = Pick<Parcel,
   'title' | 'description' | 'surface' | 'pricePerYear' | 'toolsProvided' | 'toolsPricePerYear' |
-  'water' | 'waterMeter' | 'access' | 'maxPeople' | 'toilets' | 'equipment' | 'photoUrl'> & {
+  'water' | 'waterMeter' | 'access' | 'maxPeople' | 'toilets' | 'equipment' | 'photoUrls'> & {
   commune: Commune | null
   address: string
   phone: string

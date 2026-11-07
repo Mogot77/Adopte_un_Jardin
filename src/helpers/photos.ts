@@ -5,6 +5,9 @@ const PRESET = import.meta.env.VITE_CLOUDINARY_PRESET as string | undefined
 
 export const cloudinaryEnabled = !!CLOUD && !!PRESET
 
+/** Nombre maximal de photos par annonce. */
+export const MAX_PHOTOS = 6
+
 const loadImage = (file: Blob): Promise<HTMLImageElement> => new Promise((res, rej) => {
   const url = URL.createObjectURL(file)
   const img = new Image()

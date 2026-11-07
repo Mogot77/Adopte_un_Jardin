@@ -19,7 +19,7 @@ const GuideView = ({ model }: GuideViewProps) => (
       <section className="card pad">
         <h2 className="h2s">Je dépose une parcelle</h2>
         <ol className="m-0 list-decimal pl-5 leading-relaxed">
-          <li>Je décris mon terrain : surface, loyer (un prix conseillé est proposé), outils, eau, accès, photo.</li>
+          <li>Je décris mon terrain : surface, loyer (un prix conseillé est proposé), outils, eau, accès, photos (jusqu'à 6).</li>
           <li>Mon adresse reste cachée tant qu'un jardinier n'a pas payé sa réservation.</li>
           <li>Après la première rencontre, je saisis le code remis par le jardinier pour valider la location.</li>
           <li>Je demande mes versements depuis « Mes parcelles ».</li>

@@ -11,11 +11,14 @@ export type ParcelFormViewProps = {
   waterOptions: { value: WaterAccess; label: string }[]
   /** Envoi de photo disponible (Cloudinary configuré). */
   photoEnabled: boolean
+  /** Nombre maximal de photos. */
+  maxPhotos: number
   uploading: boolean
   saving: boolean
   issues: string[]
   onChange: (patch: Partial<ParcelDraft>) => void
-  onPhoto: (file: File) => void
+  onPhotos: (files: File[]) => void
+  onRemovePhoto: (index: number) => void
   onSubmit: () => void
   onCancel: () => void
 }

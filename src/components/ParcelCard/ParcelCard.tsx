@@ -6,7 +6,7 @@ import type { ParcelCardProps } from './types'
 const ParcelCard = ({ model: m, onOpen }: ParcelCardProps) => (
   <button type="button" className="card flex w-full gap-3 p-3 text-left hover:border-brand" onClick={() => onOpen(m.id)}>
     <div className="ph grid size-20 shrink-0 place-items-center overflow-hidden rounded-md bg-subtle text-faint sm:size-24">
-      {m.photoUrl ? <img src={m.photoUrl} alt="" className="size-full object-cover" loading="lazy" /> : <Icon name="leaf" size={28} />}
+      {m.photoUrls.length > 0 ? <img src={m.photoUrls[0]} alt="" className="size-full object-cover" loading="lazy" /> : <Icon name="leaf" size={28} />}
     </div>
     <div className="min-w-0 flex-1">
       <div className="flex items-start justify-between gap-2">

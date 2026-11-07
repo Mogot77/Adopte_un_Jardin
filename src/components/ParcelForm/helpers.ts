@@ -13,11 +13,11 @@ export const initialDraft = (existing: Parcel | null, priv: ParcelPrivate | null
       title: existing.title, description: existing.description, commune: existing.commune, surface: existing.surface,
       pricePerYear: existing.pricePerYear, toolsProvided: existing.toolsProvided, toolsPricePerYear: existing.toolsPricePerYear,
       water: existing.water, waterMeter: existing.waterMeter, access: existing.access, maxPeople: existing.maxPeople,
-      toilets: existing.toilets, equipment: existing.equipment, photoUrl: existing.photoUrl,
+      toilets: existing.toilets, equipment: existing.equipment, photoUrls: existing.photoUrls,
       address: priv?.address ?? '', phone: priv?.phone ?? phone,
     }
     : {
       title: '', description: '', commune, surface: DEFAULT_SURFACE, pricePerYear: suggestedPrice(DEFAULT_SURFACE),
       toolsProvided: false, toolsPricePerYear: 0, water: 'robinet', waterMeter: false, access: '', maxPeople: 2,
-      toilets: false, equipment: '', photoUrl: '', address: '', phone,
+      toilets: false, equipment: '', photoUrls: [], address: '', phone,
     }

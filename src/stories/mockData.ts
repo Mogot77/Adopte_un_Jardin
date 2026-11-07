@@ -14,7 +14,7 @@ export const mockProfile: Profile = {
 }
 
 const base = {
-  ownerEmail: 'jean@example.com', ownerName: 'Jean Dupont', gardenerEmail: '', photoUrl: '', status: 'publiee' as const,
+  ownerEmail: 'jean@example.com', ownerName: 'Jean Dupont', gardenerEmail: '', photoUrls: [], status: 'publiee' as const,
   createdAt: '2026-09-10T10:00:00.000Z', updatedAt: '2026-09-10T10:00:00.000Z', water: 'robinet' as const, waterMeter: false,
   toolsProvided: true, toolsPricePerYear: 10, maxPeople: 2, toilets: false, equipment: 'Abri de jardin', access: 'Tous les jours de 8h à 20h',
 }

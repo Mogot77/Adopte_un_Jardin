@@ -10,7 +10,7 @@ export const buildParcelCard = (p: Parcel, distanceKm: number | null): ParcelCar
   communeLabel: `${p.commune.nom} (${p.commune.dept})`,
   surfaceLabel: `${p.surface} m² · ${surfaceRange(p.surface)}`,
   priceLabel: `${eur(p.pricePerYear)} / an`,
-  photoUrl: p.photoUrl,
+  photoUrls: p.photoUrls,
   tags: [
     ...(p.toolsProvided ? ['Outils fournis'] : []),
     ...(p.water !== 'aucune' ? [WATER_LABELS[p.water]] : []),

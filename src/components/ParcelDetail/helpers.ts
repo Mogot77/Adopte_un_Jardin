@@ -28,7 +28,7 @@ export const buildParcelDetailModel = (p: Parcel, ctx: Ctx): ParcelDetailModel =
     description: p.description,
     ownerName: p.ownerName,
     communeLabel: `${p.commune.nom} (${p.commune.dept})`,
-    photoUrl: p.photoUrl,
+    photoUrls: p.photoUrls,
     rows: [
       { label: 'Surface', value: `${p.surface} m² (${surfaceRange(p.surface)})` },
       { label: 'Loyer annuel', value: eur(p.pricePerYear) },

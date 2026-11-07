@@ -1,6 +1,7 @@
 /* Règles métier sur les annonces : filtrage de la recherche, regroupement par commune, validation du dépôt. */
 import { distanceKm } from '@/helpers/geo'
 import { MIN_SURFACE, priceBounds } from '@/helpers/pricing'
+import { slotsValid } from '@/helpers/schedule'
 import type { Commune, Parcel, ParcelDraft, WaterAccess } from '@/types'
 
 export const WATER_LABELS: Record<WaterAccess, string> = {
@@ -53,9 +54,10 @@ export const draftIssues = (d: ParcelDraft): string[] => {
   if (!(d.surface >= MIN_SURFACE)) issues.push(`La surface minimale est de ${MIN_SURFACE} m².`)
   else {
     const { min, max } = priceBounds(d.surface)
-    if (!(d.pricePerYear >= min && d.pricePerYear <= max)) issues.push(`Le participation annuelle doit être compris entre ${min} € et ${max} € pour cette surface.`)
+    if (!(d.pricePerYear >= min && d.pricePerYear <= max)) issues.push(`La participation annuelle doit être comprise entre ${min} € et ${max} € pour cette surface.`)
   }
-  if (!d.access.trim()) issues.push("Indiquez les jours et horaires d'accès.")
+  if (d.accessSlots.length === 0) issues.push("Cochez au moins un jour d'accès.")
+  else if (!slotsValid(d.accessSlots)) issues.push("Pour chaque jour d'accès, l'heure de fin doit être après l'heure de début.")
   if (!(d.maxPeople >= 1)) issues.push('Indiquez le nombre de personnes pouvant être présentes en même temps.')
   if (!d.address.trim()) issues.push("Renseignez l'adresse du terrain (communiquée seulement après paiement).")
   if (d.toolsProvided && d.toolsPricePerYear < 0) issues.push('La participation aux outils ne peut pas être négative.')

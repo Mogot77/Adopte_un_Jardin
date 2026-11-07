@@ -6,6 +6,9 @@ export type ParcelStatus = 'publiee' | 'reservee' | 'retiree'
 export type WaterAccess = 'aucune' | 'robinet' | 'cuve'
 
 /** Annonce publique d'une parcelle. L'adresse exacte n'y figure pas (voir `ParcelPrivate`). */
+/** Plage d'accès à la parcelle pour un jour (0 = lundi ... 6 = dimanche), heures au format « HH:MM ». */
+export type AccessSlot = { day: number; from: string; to: string }
+
 export type Parcel = {
   id: string
   ownerEmail: string
@@ -23,8 +26,10 @@ export type Parcel = {
   water: WaterAccess
   /** Compteur d'eau individuel pour dissocier la consommation du jardin. */
   waterMeter: boolean
-  /** Jours et horaires d'accès. */
+  /** Résumé lisible des jours et horaires d'accès (déduit de `accessSlots`). */
   access: string
+  /** Plages d'accès : une par jour ouvert. */
+  accessSlots: AccessSlot[]
   /** Nombre de personnes pouvant être présentes en même temps. */
   maxPeople: number
   toilets: boolean
@@ -50,7 +55,7 @@ export type ParcelPrivate = {
 /** Champs saisis dans le formulaire de dépôt d'une parcelle (la commune est vide tant qu'elle n'est pas choisie). */
 export type ParcelDraft = Pick<Parcel,
   'title' | 'description' | 'surface' | 'pricePerYear' | 'toolsProvided' | 'toolsPricePerYear' |
-  'water' | 'waterMeter' | 'access' | 'maxPeople' | 'toilets' | 'equipment' | 'photoUrls'> & {
+  'water' | 'waterMeter' | 'accessSlots' | 'maxPeople' | 'toilets' | 'equipment' | 'photoUrls'> & {
   commune: Commune | null
   address: string
   phone: string

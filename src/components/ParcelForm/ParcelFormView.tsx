@@ -1,5 +1,6 @@
 import Button from '@/components/ui/Button'
 import CommuneSelect from '@/components/ui/CommuneSelect'
+import ScheduleField from '@/components/ui/ScheduleField'
 import Field from '@/components/ui/Field'
 import Note from '@/components/ui/Note'
 import PageHead from '@/components/ui/PageHead'
@@ -57,7 +58,7 @@ const ParcelFormView = ({ draft: d, isEdit, commune, suggested, bounds, waterOpt
 
       <section className="card pad grid gap-4 sm:grid-cols-2" aria-label="Accès">
         <h2 className="h2 sm:col-span-2">Accès</h2>
-        <Field label="Jours et horaires d'accès"><input className="in" value={d.access} placeholder="Ex. tous les jours de 8h à 20h" onChange={e => onChange({ access: e.target.value })} /></Field>
+        <div className="sm:col-span-2"><ScheduleField value={d.accessSlots} onChange={accessSlots => onChange({ accessSlots })} /></div>
         <Field label="Personnes présentes en même temps (max.)"><input className="in" type="number" min={1} value={d.maxPeople || ''} onChange={e => onChange({ maxPeople: num(e.target.value) })} /></Field>
       </section>
 

@@ -1,8 +1,9 @@
 import { doc, getDoc, updateDoc, writeBatch, collection } from 'firebase/firestore'
 import { db } from '@/store/queries/firebase'
 import { nowIso } from '@/helpers/dates'
+import { formatAccess } from '@/helpers/schedule'
 import { toCommune } from '@/store/queries/users'
-import type { Commune, Parcel, ParcelDraft, ParcelPrivate, Profile, WaterAccess } from '@/types'
+import type { AccessSlot, Commune, Parcel, ParcelDraft, ParcelPrivate, Profile, WaterAccess } from '@/types'
 
 const PARCELS = 'parcelles'
 const PRIVATE = 'adresses'
@@ -13,6 +14,18 @@ const num = (v: unknown): number => (typeof v === 'number' && Number.isFinite(v)
 const photos = (d: Record<string, unknown>): string[] => {
   const list = Array.isArray(d.photoUrls) ? d.photoUrls.filter((u): u is string => typeof u === 'string' && u !== '') : []
   return list.length > 0 ? list : str(d.photoUrl) ? [str(d.photoUrl)] : []
+}
+const TIME = /^d{2}:d{2}$/
+/** Plages d'accès valides uniquement, triées par jour. */
+const slots = (v: unknown): AccessSlot[] => {
+  if (!Array.isArray(v)) return []
+  return v.flatMap((s: unknown): AccessSlot[] => {
+    if (typeof s !== 'object' || s === null) return []
+    const o = s as Record<string, unknown>
+    const day = o.day
+    return typeof day === 'number' && Number.isInteger(day) && day >= 0 && day <= 6 && typeof o.from === 'string' && TIME.test(o.from) && typeof o.to === 'string' && TIME.test(o.to)
+      ? [{ day, from: o.from, to: o.to }] : []
+  }).sort((a, b) => a.day - b.day)
 }
 const water = (v: unknown): WaterAccess => (v === 'robinet' || v === 'cuve' ? v : 'aucune')
 const status = (v: unknown): Parcel['status'] => (v === 'reservee' || v === 'retiree' ? v : 'publiee')
@@ -35,6 +48,7 @@ export const toParcel = (id: string, d: Record<string, unknown>): Parcel | null 
     water: water(d.water),
     waterMeter: d.waterMeter === true,
     access: str(d.access),
+    accessSlots: slots(d.accessSlots),
     maxPeople: num(d.maxPeople),
     toilets: d.toilets === true,
     equipment: str(d.equipment),
@@ -58,7 +72,7 @@ export const saveParcel = async (id: string, draft: ParcelDraft & { commune: Com
     ...pub,
     title: pub.title.trim(),
     description: pub.description.trim(),
-    access: pub.access.trim(),
+    access: formatAccess(pub.accessSlots),
     equipment: pub.equipment.trim(),
     toolsPricePerYear: pub.toolsProvided ? pub.toolsPricePerYear : 0,
     id,

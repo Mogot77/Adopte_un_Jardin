@@ -4,10 +4,8 @@ import type { AuthUser } from '@/store/queries/firebase'
 export type AuthCtx = {
   /** `undefined` tant que l'état de connexion n'est pas connu, `null` si déconnecté. */
   user: AuthUser | null | undefined
-  /** `ok` : compte Google à e-mail vérifié ; `denied` : e-mail non vérifié ; `loading` : en cours. */
-  access: 'loading' | 'ok' | 'denied'
-  /** Administrateur d'origine (voir `BOOTSTRAP_ADMIN`). */
-  isAdmin: boolean
+  /** `ok` : compte anonyme connecté ; `loading` : en cours ou pas encore connecté. */
+  access: 'loading' | 'ok'
   error: string
   login: () => Promise<void>
   logout: () => Promise<void>

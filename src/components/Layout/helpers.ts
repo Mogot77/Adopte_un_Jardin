@@ -6,6 +6,7 @@ const ITEMS: { href: string; label: string; match: (path: string) => boolean }[]
   { href: '#/mes-parcelles', label: 'Mes parcelles', match: p => p === '/mes-parcelles' },
   { href: '#/mes-reservations', label: 'Mes réservations', match: p => p === '/mes-reservations' },
   { href: '#/echanges', label: 'Échange de plantes', match: p => p.startsWith('/echanges') },
+  { href: '#/cueillette', label: 'À cueillir', match: p => p.startsWith('/cueillette') },
   { href: '#/guide', label: "Mode d'emploi", match: p => p === '/guide' },
 ]
 

@@ -1,10 +1,10 @@
 import { initializeApp } from 'firebase/app'
 import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager } from 'firebase/firestore'
-import { GoogleAuthProvider, getAuth, onAuthStateChanged, signInWithPopup, signOut, type User } from 'firebase/auth'
+import { getAuth, onAuthStateChanged, signInAnonymously, signOut, type User } from 'firebase/auth'
 
 /** Configuration web Firebase, lue dans les variables VITE_FIREBASE_* (.env.local en dev, variables GitHub Actions en prod).
  *  Ce n'est PAS un secret : ces valeurs indiquent seulement quel projet contacter et se retrouvent dans le JavaScript de tout site Firebase.
- *  La sécurité vient des règles Firestore (compte connecté, e-mail vérifié, liste blanche) et des domaines autorisés, voir « Sécurité » dans le README. */
+ *  La sécurité vient des règles Firestore (compte connecté, même anonyme) et des domaines autorisés, voir « Sécurité » dans le README. */
 const env = import.meta.env
 const config = {
   apiKey: env.VITE_FIREBASE_API_KEY as string | undefined,
@@ -22,11 +22,10 @@ export const app = initializeApp(config)
 export const db = initializeFirestore(app, { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) })
 
 const auth = getAuth(app)
-const provider = new GoogleAuthProvider()
-provider.setCustomParameters({ prompt: 'select_account' })
 
 export type AuthUser = User
 
 export const watchAuth = (cb: (u: User | null) => void) => onAuthStateChanged(auth, cb)
-export const signInWithGoogle = () => signInWithPopup(auth, provider)
+/** Connexion anonyme (provisoire) : l'identité est l'`uid`, conservé par le navigateur tant que ses données ne sont pas effacées. */
+export const signInAnonymous = () => signInAnonymously(auth)
 export const signOutUser = () => signOut(auth)

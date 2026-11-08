@@ -6,7 +6,7 @@ import Note from '@/components/ui/Note'
 import type { ParcelDetailViewProps } from './types'
 
 /** Fiche d'annonce (vue) : caractéristiques à gauche, panneau de réservation à droite. */
-const ParcelDetailView = ({ model: m, step, accepted, busy, error, onStart, onBack, onAccept, onPay, onEdit, onSearch }: ParcelDetailViewProps) => (
+const ParcelDetailView = ({ model: m, step, accepted, busy, error, production, onStart, onBack, onAccept, onPay, onEdit, onSearch }: ParcelDetailViewProps) => (
   <>
     <p className="crumb mb-2"><a href="#/" onClick={e => { e.preventDefault(); onSearch() }}>← Retour à la recherche</a></p>
     <div className="cols">
@@ -18,6 +18,7 @@ const ParcelDetailView = ({ model: m, step, accepted, busy, error, onStart, onBa
           {m.description && <p className="mb-4 whitespace-pre-line">{m.description}</p>}
           <Kv rows={m.rows} />
         </div>
+        {production}
       </div>
       <aside className="col-side" aria-label="Réservation">
         <div className="card pad stack" style={{ '--gap': '12px' } as React.CSSProperties}>

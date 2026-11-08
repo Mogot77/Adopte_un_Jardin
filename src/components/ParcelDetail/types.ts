@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import type { ReservationStatus } from '@/types'
 
 /** `available` : réservable ; `own` : annonce du compte ; `booked` : réservée par le compte ; `unavailable` : déjà prise ou retirée. */
@@ -31,6 +32,8 @@ export type ParcelDetailViewProps = {
   accepted: boolean
   busy: boolean
   error?: string
+  /** Encart « Production du jardin », fourni par le conteneur au propriétaire et au jardinier de la parcelle. */
+  production?: ReactNode
   onStart: () => void
   onBack: () => void
   onAccept: (v: boolean) => void

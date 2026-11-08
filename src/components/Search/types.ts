@@ -2,6 +2,7 @@ import type { LatLon } from '@/helpers/geo'
 import type { Bubble } from '@/helpers/parcels'
 import type { CommuneSelectProps } from '@/components/ui/CommuneSelect'
 import type { ParcelCardModel } from '@/components/ParcelCard'
+import type { ImpactModel } from '@/components/ImpactBanner'
 
 export type SearchModel = {
   cards: ParcelCardModel[]
@@ -14,6 +15,8 @@ export type SearchModel = {
 
 export type SearchViewProps = {
   model: SearchModel
+  /** Infographie réduite des kilos récoltés depuis le lancement. */
+  impact: ImpactModel
   commune: CommuneSelectProps
   radiusKm: number
   radiusOptions: number[]

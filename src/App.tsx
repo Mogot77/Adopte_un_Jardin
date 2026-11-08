@@ -20,6 +20,9 @@ const MyReservations = lazy(() => import('@/components/MyReservations'))
 const Swap = lazy(() => import('@/components/Swap'))
 const PlantDetail = lazy(() => import('@/components/PlantDetail'))
 const PlantForm = lazy(() => import('@/components/PlantForm'))
+const Harvests = lazy(() => import('@/components/Harvests'))
+const HarvestDetail = lazy(() => import('@/components/HarvestDetail'))
+const HarvestForm = lazy(() => import('@/components/HarvestForm'))
 const Guide = lazy(() => import('@/components/Guide'))
 
 /** Routes par hash. Ajouter ici les nouveaux écrans. */
@@ -33,12 +36,18 @@ const Routes = () => {
   if (plantEdit) return <PlantForm key={plantEdit[1]} id={plantEdit[1]} />
   const plant = /^\/echanges\/([^/]+)$/.exec(path)
   if (plant && plant[1] !== 'proposer') return <PlantDetail key={plant[1]} id={plant[1]} />
+  const harvestEdit = /^\/cueillette\/proposer\/([^/]+)$/.exec(path)
+  if (harvestEdit) return <HarvestForm key={harvestEdit[1]} id={harvestEdit[1]} />
+  const harvest = /^\/cueillette\/([^/]+)$/.exec(path)
+  if (harvest && harvest[1] !== 'proposer') return <HarvestDetail key={harvest[1]} id={harvest[1]} />
   switch (path) {
     case '/proposer': return <ParcelForm />
     case '/mes-parcelles': return <MyParcels />
     case '/mes-reservations': return <MyReservations />
     case '/echanges': return <Swap />
     case '/echanges/proposer': return <PlantForm />
+    case '/cueillette': return <Harvests />
+    case '/cueillette/proposer': return <HarvestForm />
     case '/guide': return <Guide />
     default: return <Search />
   }
@@ -60,13 +69,12 @@ const Shell = () => {
   )
 }
 
-/** Portail : accueil public tant que le compte n'est pas connecté avec une adresse vérifiée. */
+/** Portail : accueil public tant qu'aucun compte (anonyme) n'est connecté. */
 const Gate = () => {
-  const { user, access } = useAuth()
+  const { user } = useAuth()
   if (user === undefined) return <Empty>Chargement…</Empty>
-  if (!user || access !== 'ok' || !user.email) return <Login />
-  const email = user.email.toLowerCase()
-  return <AppProvider key={email} email={email}><Shell /></AppProvider>
+  if (!user) return <Login />
+  return <AppProvider key={user.uid} email={user.uid}><Shell /></AppProvider>
 }
 
 const App = () => <AuthProvider><Gate /></AuthProvider>

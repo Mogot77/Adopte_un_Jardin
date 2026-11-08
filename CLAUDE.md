@@ -1,6 +1,6 @@
 # Adopte un Jardin
 
-Application web responsive (PC et téléphone) de mise en relation entre **jardiniers** qui cherchent une parcelle et **propriétaires** qui louent une partie de leur jardin. Connexion Google (Firebase Auth), inscription ouverte à tout compte à e-mail vérifié, données partagées dans Firestore, photos sur Cloudinary (seule l'URL va dans Firestore).
+Application web responsive (PC et téléphone) de mise en relation entre **jardiniers** qui cherchent une parcelle et **propriétaires** qui louent une partie de leur jardin. Connexion **anonyme provisoire** (Firebase Auth : l'`uid` sert d'identité, stocké dans les champs historiquement nommés `ownerEmail`/`gardenerEmail`/`email`), données partagées dans Firestore, photos sur Cloudinary (seule l'URL va dans Firestore).
 
 > Le concept, les règles métier et le périmètre de la V0.1 sont dans `docs/analyse-ancien-projet.md` (issu de l'étude de 2015-2016 conservée dans `docs/ancien_projet/`, non versionnée). **Le lire avant de toucher au métier.**
 
@@ -28,7 +28,7 @@ Vite 8, React 19, TypeScript strict, Tailwind CSS 4, Redux Toolkit, Firebase (Au
 - `index.css` : thème (jetons CSS clair/sombre) et classes réutilisables (`card`, `btn`, `chip`, `kv`...)
 
 ## Écrans (routes par hash)
-`#/` recherche (carte + liste) · `#/parcelle/:id` fiche et réservation · `#/proposer[/:id]` dépôt / modification · `#/mes-parcelles` tableau de bord propriétaire · `#/mes-reservations` tableau de bord jardinier · `#/echanges` échange de plantes (liste + mes dons) · `#/echanges/:id` fiche d'un don · `#/echanges/proposer[/:id]` dépôt / modification d'un don · `#/guide` mode d'emploi et charte. Sans profil, l'écran d'inscription (`Onboarding`) s'affiche d'abord.
+`#/` recherche (carte + liste) · `#/parcelle/:id` fiche et réservation · `#/proposer[/:id]` dépôt / modification · `#/mes-parcelles` tableau de bord propriétaire · `#/mes-reservations` tableau de bord jardinier · `#/echanges` échange de plantes (liste + mes dons) · `#/echanges/:id` fiche d'un don · `#/echanges/proposer[/:id]` dépôt / modification d'un don · `#/cueillette` « À cueillir » (offres de fruits, aromatiques et légumes par saison + mes offres) · `#/cueillette/:id` fiche d'une offre · `#/cueillette/proposer[/:id]` dépôt / modification d'une offre · `#/guide` mode d'emploi et charte. Sans profil, l'écran d'inscription (`Onboarding`) s'affiche d'abord.
 
 ## Règles générales
 - Noms de composants, fichiers et identifiants de code en anglais ; **commentaires de code en français** ; textes affichés en français.
@@ -42,7 +42,7 @@ Vite 8, React 19, TypeScript strict, Tailwind CSS 4, Redux Toolkit, Firebase (Au
 ## Configuration et déploiement
 - Variables `VITE_FIREBASE_*`, `VITE_CLOUDINARY_*` (facultatives : sans elles, pas d'envoi de photo) et `VITE_TODAY` (facultatif) : `.env.local` en dev (modèle `.env.example`), *Variables* GitHub Actions en prod. Sans Firebase l'app s'arrête avec un message clair.
 - Déploiement : GitHub Pages par `.github/workflows/deploy.yml` (lint, build, Storybook dans `dist/storybook`). `base` de Vite : `/Adopte_un_Jardin/` (à adapter au nom du dépôt GitHub).
-- Collections Firestore : `users`, `parcelles`, `adresses`, `reservations`, `codes`, `plantes` (dons gratuits). Firestore : règles dans `firestore.rules` (publiées à la main dans la console, **jamais testées sur l'émulateur** : à faire avant toute mise en production). Administrateur d'origine codé en dur dans les règles et dans `store/queries/users.ts`. Toute nouvelle collection doit y être déclarée. Aucun index composite nécessaire (requêtes à égalité simple).
+- Collections Firestore : `users`, `parcelles`, `adresses`, `reservations`, `codes`, `plantes` (dons gratuits), `cueillettes` (offres « à cueillir » gratuites, avec la période de récolte de chaque arbre ou plante et les jours et horaires de cueillette), `recoltes` (saisies de production : kg par culture sur une parcelle ou une offre), `stats` (un document public par mois `AAAA-MM`, kilos par type : alimente l'infographie de l'accueil ; **lecture ouverte même sans connexion**, écrit par le client dans la V0.1 : à déplacer côté serveur). Firestore : règles dans `firestore.rules` (publiées à la main dans la console, **jamais testées sur l'émulateur** : à faire avant toute mise en production). Plus d'administrateur d'origine : un profil est admin si son rôle est mis à `admin` à la main dans la console. Toute nouvelle collection doit y être déclarée. Aucun index composite nécessaire (requêtes à égalité simple).
 - Le projet Firebase n'est pas encore créé : `.firebaserc` est vide.
 
 ## Points d'attention

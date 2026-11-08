@@ -3,14 +3,16 @@ import CommuneSelect from '@/components/ui/CommuneSelect'
 import Empty from '@/components/ui/Empty'
 import Field from '@/components/ui/Field'
 import PageHead from '@/components/ui/PageHead'
+import ImpactBanner from '@/components/ImpactBanner'
 import MapView from '@/components/MapView'
 import ParcelCard from '@/components/ParcelCard'
 import type { SearchViewProps } from './types'
 
 /** Recherche (vue) : filtres, carte à bulles et liste d'annonces. */
-const SearchView = ({ model, commune, radiusKm, radiusOptions, maxPrice, activeCode, showRadius, onRadius, onMaxPrice, onBubble, onClearBubble, onOpen }: SearchViewProps) => (
+const SearchView = ({ model, impact, commune, radiusKm, radiusOptions, maxPrice, activeCode, showRadius, onRadius, onMaxPrice, onBubble, onClearBubble, onOpen }: SearchViewProps) => (
   <>
     <PageHead title="Chercher un jardin" subtitle="Planter, récolter, économiser : trouvez une parcelle près de chez vous." />
+    <div className="mb-4"><ImpactBanner model={impact} compact /></div>
     <div className="card pad mb-4 grid gap-4 sm:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)]">
       <div><span className="lbl">Où ?</span><CommuneSelect {...commune} /></div>
       <Field label="Rayon">

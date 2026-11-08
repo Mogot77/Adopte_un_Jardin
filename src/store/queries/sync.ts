@@ -1,12 +1,16 @@
 import { collection, doc, onSnapshot, query, where, type QuerySnapshot, type Unsubscribe } from 'firebase/firestore'
 import { db } from '@/store/queries/firebase'
 import type { AppDispatch } from '@/store'
-import { codesSet, parcelsSet, plantsSet, profileSet, reservationsSet, syncFailedSet, type ParcelSource, type PlantSource, type ReservationSource } from '@/store/reducers'
+import { codesSet, harvestsSet, parcelsSet, plantsSet, profileSet, reservationsSet, syncFailedSet, type HarvestSource, type ParcelSource, type PlantSource, type ReservationSource } from '@/store/reducers'
+import { toHarvest } from '@/store/queries/harvests'
 import { toParcel } from '@/store/queries/parcels'
 import { toPlant } from '@/store/queries/plants'
 import { toReservation } from '@/store/queries/reservations'
 import { toProfile } from '@/store/queries/users'
-import type { Parcel, Plant, Reservation } from '@/types'
+import type { HarvestOffer, Parcel, Plant, Reservation } from '@/types'
+
+const harvests = (s: QuerySnapshot): HarvestOffer[] =>
+  s.docs.map(d => toHarvest(d.id, d.data())).filter((h): h is HarvestOffer => h !== null)
 
 const parcels = (s: QuerySnapshot): Parcel[] =>
   s.docs.map(d => toParcel(d.id, d.data())).filter((p): p is Parcel => p !== null)
@@ -34,6 +38,11 @@ export const startSync = (email: string, dispatch: AppDispatch): (() => void) =>
     unsubs.push(onSnapshot(query(collection(db, 'plantes'), where(field, '==', value)), s => dispatch(plantsSet({ source, items: plants(s) })), fail))
   watchPlants('open', 'status', 'disponible')
   watchPlants('mine', 'ownerEmail', email)
+
+  const watchHarvests = (source: HarvestSource, field: string, value: string) =>
+    unsubs.push(onSnapshot(query(collection(db, 'cueillettes'), where(field, '==', value)), s => dispatch(harvestsSet({ source, items: harvests(s) })), fail))
+  watchHarvests('open', 'status', 'ouverte')
+  watchHarvests('mine', 'ownerEmail', email)
 
   const watchReservations = (source: ReservationSource, field: string) =>
     unsubs.push(onSnapshot(query(collection(db, 'reservations'), where(field, '==', email)), s => dispatch(reservationsSet({ source, items: reservations(s) })), fail))

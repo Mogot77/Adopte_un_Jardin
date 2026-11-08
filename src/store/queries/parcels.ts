@@ -15,9 +15,9 @@ const photos = (d: Record<string, unknown>): string[] => {
   const list = Array.isArray(d.photoUrls) ? d.photoUrls.filter((u): u is string => typeof u === 'string' && u !== '') : []
   return list.length > 0 ? list : str(d.photoUrl) ? [str(d.photoUrl)] : []
 }
-const TIME = /^d{2}:d{2}$/
+const TIME = /^\d{2}:\d{2}$/
 /** Plages d'accès valides uniquement, triées par jour. */
-const slots = (v: unknown): AccessSlot[] => {
+export const toSlots = (v: unknown): AccessSlot[] => {
   if (!Array.isArray(v)) return []
   return v.flatMap((s: unknown): AccessSlot[] => {
     if (typeof s !== 'object' || s === null) return []
@@ -48,7 +48,7 @@ export const toParcel = (id: string, d: Record<string, unknown>): Parcel | null 
     water: water(d.water),
     waterMeter: d.waterMeter === true,
     access: str(d.access),
-    accessSlots: slots(d.accessSlots),
+    accessSlots: toSlots(d.accessSlots),
     maxPeople: num(d.maxPeople),
     toilets: d.toilets === true,
     equipment: str(d.equipment),

@@ -9,7 +9,9 @@ export const selectOwnerReservations = (s: RootState) => s.data.reservations.asO
 export const selectGardenerReservations = (s: RootState) => s.data.reservations.asGardener
 export const selectOpenPlants = (s: RootState) => s.data.plants.open
 export const selectMyPlants = (s: RootState) => s.data.plants.mine
-export const selectCodes = (s: RootState) => s.data.codes
+export const selectOpenHarvests = (s: RootState) => s.data.harvests.open
+export const selectMyHarvests = (s: RootState) => s.data.harvests.mine
+export const selectCodes =(s: RootState) => s.data.codes
 
 const selectRented = (s: RootState) => s.data.parcels.rented
 

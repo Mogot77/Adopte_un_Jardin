@@ -4,13 +4,14 @@ import { useApp } from '@/hooks/useApp'
 import { go } from '@/hooks/useRoute'
 import { selectMyParcels, selectOwnerReservations } from '@/store/selectors'
 import { withdrawParcel } from '@/store/queries/parcels'
+import { seedParcels } from '@/store/queries/seed'
 import { requestPayout, validateReservation } from '@/store/queries/reservations'
 import { buildMyParcelsModel } from './helpers'
 import MyParcelsView from './MyParcelsView'
 
 /** Tableau de bord propriétaire : mes annonces, validation du code après la rencontre, demandes de versement. */
 const MyParcels = () => {
-  const { toast } = useApp()
+  const { toast, profile } = useApp()
   const parcels = useAppSelector(selectMyParcels)
   const reservations = useAppSelector(selectOwnerReservations)
   const [busyId, setBusyId] = useState<string | null>(null)
@@ -23,6 +24,12 @@ const MyParcels = () => {
   const reservation = (id: string) => reservations.find(r => r.id === id)
 
   return (
+    <>
+    {import.meta.env.DEV && profile && (
+      <button type="button" className="btn btn-sm mb-3" onClick={() => run('seed', () => seedParcels(profile), '10 jardins de test créés.', 'Création impossible.')}>
+        Générer 10 jardins de test (dev)
+      </button>
+    )}
     <MyParcelsView
       model={model} busyId={busyId}
       onOpen={id => go(`#/parcelle/${id}`)} onEdit={id => go(`#/proposer/${id}`)} onNew={() => go('#/proposer')}
@@ -36,6 +43,7 @@ const MyParcels = () => {
         if (r) run(rid, () => requestPayout(r, key), 'Demande de versement enregistrée.', 'Demande impossible. Réessayez.')
       }}
     />
+    </>
   )
 }
 

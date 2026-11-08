@@ -7,7 +7,7 @@ const meta = {
   title: 'Ecrans/Onboarding', component: OnboardingView,
   parameters: { layout: 'fullscreen' },
   args: {
-    email: 'camille@example.com', saving: false, onChange: fn(), onSubmit: fn(),
+    saving: false, onChange: fn(), onSubmit: fn(),
     form: { name: 'Camille Martin', phone: '', wantsGarden: true, offersGarden: false },
     commune: { value: null, query: '', options: [], loading: false, onQuery: fn(), onPick: fn() },
   },

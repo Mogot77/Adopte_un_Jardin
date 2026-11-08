@@ -1,19 +1,15 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
-import { signInWithGoogle, signOutUser, watchAuth, type AuthUser } from '@/store/queries/firebase'
-import { BOOTSTRAP_ADMIN, normEmail } from '@/store/queries/users'
+import { signInAnonymous, signOutUser, watchAuth, type AuthUser } from '@/store/queries/firebase'
 import { AuthContext, type AuthCtx } from '@/store/providers/authContext'
 
 const message = (e: unknown): string => {
   const code = (e as { code?: string })?.code
-  if (code === 'auth/popup-closed-by-user' || code === 'auth/cancelled-popup-request') return ''
-  if (code === 'auth/popup-blocked') return 'La fenêtre de connexion a été bloquée par le navigateur.'
-  if (code === 'auth/unauthorized-domain') return "Ce domaine n'est pas autorisé dans Firebase Authentication."
-  if (code === 'auth/operation-not-allowed') return "La connexion Google n'est pas activée dans Firebase Authentication."
+  if (code === 'auth/operation-not-allowed') return "La connexion anonyme n'est pas activée dans Firebase Authentication."
   if (code === 'auth/network-request-failed') return 'Connexion réseau indisponible.'
   return 'Connexion impossible. Réessayez.'
 }
 
-/** Contexte d'authentification : compte Google connecté. Tout compte à e-mail vérifié peut s'inscrire (créer son profil). */
+/** Contexte d'authentification : compte anonyme (provisoire). L'`uid` sert d'identité ; le profil se crée ensuite (inscription). */
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AuthUser | null | undefined>(undefined)
   const [error, setError] = useState('')
@@ -22,7 +18,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = useCallback(async () => {
     setError('')
-    try { await signInWithGoogle() } catch (e) { setError(message(e)) }
+    try { await signInAnonymous() } catch (e) { setError(message(e)) }
   }, [])
 
   const logout = useCallback(async () => {
@@ -31,8 +27,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const value = useMemo<AuthCtx>(() => ({
     user,
-    access: user === undefined ? 'loading' : user && user.email && user.emailVerified ? 'ok' : user ? 'denied' : 'loading',
-    isAdmin: !!user?.email && normEmail(user.email) === BOOTSTRAP_ADMIN,
+    access: user ? 'ok' : 'loading',
     error, login, logout,
   }), [user, error, login, logout])
 

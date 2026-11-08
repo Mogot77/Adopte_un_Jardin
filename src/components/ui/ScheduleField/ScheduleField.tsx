@@ -2,9 +2,9 @@ import { applyDays, DAY_LABELS, SCHEDULE_PRESETS, setSlotTime, toggleDay } from 
 import type { ScheduleFieldProps } from './types'
 
 /** Choix des jours d'accès (lundi à dimanche) et de la plage horaire de chaque jour. */
-const ScheduleField = ({ value, onChange }: ScheduleFieldProps) => (
+const ScheduleField = ({ value, onChange, label = "Jours et horaires d'accès" }: ScheduleFieldProps) => (
   <fieldset className="stack" style={{ '--gap': '8px' } as React.CSSProperties}>
-    <legend className="lbl">Jours et horaires d'accès</legend>
+    <legend className="lbl">{label}</legend>
     <div className="flex flex-wrap gap-2" role="group" aria-label="Raccourcis">
       {SCHEDULE_PRESETS.map(p => (
         <button key={p.label} type="button" className="chip gr cursor-pointer" onClick={() => onChange(applyDays(value, p.days))}>{p.label}</button>

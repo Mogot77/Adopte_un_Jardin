@@ -13,8 +13,8 @@ import OnboardingView from './OnboardingView'
 const Onboarding = () => {
   const { user } = useAuth()
   const { profile, toast } = useApp()
-  const email = user?.email?.toLowerCase() ?? ''
-  const [form, setForm] = useState<OnboardingForm>({ name: user?.displayName ?? '', phone: '', wantsGarden: true, offersGarden: false })
+  const uid = user?.uid ?? ''
+  const [form, setForm] = useState<OnboardingForm>({ name: '', phone: '', wantsGarden: true, offersGarden: false })
   const [commune, setCommune] = useState<Commune | null>(null)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -25,14 +25,14 @@ const Onboarding = () => {
     if (issue) { setError(issue); return }
     setError('')
     setSaving(true)
-    saveProfile(email, { ...form, commune }, profile)
+    saveProfile(uid, { ...form, commune }, profile)
       .then(() => { toast('Bienvenue sur Adopte un Jardin !'); go(form.offersGarden && !form.wantsGarden ? '#/proposer' : '#/') })
       .catch(e => { console.error(e); setError("L'inscription a échoué. Réessayez."); setSaving(false) })
   }
 
   return (
     <OnboardingView
-      email={email} form={form} commune={communeSelect} saving={saving} error={error}
+      form={form} commune={communeSelect} saving={saving} error={error}
       onChange={patch => setForm(f => ({ ...f, ...patch }))} onSubmit={submit}
     />
   )

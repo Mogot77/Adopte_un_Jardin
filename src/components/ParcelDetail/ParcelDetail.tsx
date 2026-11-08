@@ -7,6 +7,7 @@ import { currentSeason } from '@/helpers/dates'
 import { selectAllParcels, selectCodes, selectGardenerReservations } from '@/store/selectors'
 import { reserveParcel } from '@/store/queries/reservations'
 import Empty from '@/components/ui/Empty'
+import ProductionStats from '@/components/ProductionStats'
 import { buildParcelDetailModel } from './helpers'
 import type { ReserveStep } from './types'
 import ParcelDetailView from './ParcelDetailView'
@@ -50,6 +51,9 @@ const ParcelDetail = ({ id }: { id: string }) => {
   return (
     <ParcelDetailView
       model={model} step={step} accepted={accepted} busy={busy} error={error}
+      production={parcel.ownerEmail === myEmail || parcel.gardenerEmail === myEmail
+        ? <ProductionStats sourceType="parcelle" sourceId={id} ownerEmail={parcel.ownerEmail} />
+        : undefined}
       onStart={() => { setStep('confirm'); setAccepted(false); setError('') }} onBack={() => setStep('view')}
       onAccept={setAccepted} onPay={pay} onEdit={() => go(`#/proposer/${id}`)} onSearch={() => go('#/')}
     />

@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { fn } from 'storybook/test'
 import SearchView from './SearchView'
 import { buildSearchModel } from './helpers'
-import { mockCommunes, mockParcels } from '@/stories'
+import { buildImpactModel } from '@/components/ImpactBanner'
+import { mockCommunes, mockImpactMonths, mockParcels } from '@/stories'
 
 const filters = { commune: mockCommunes[0], radiusKm: 20, maxPrice: null, activeCode: null }
 const none = { value: null, query: '', options: [], loading: false, onQuery: fn(), onPick: fn() }
@@ -11,7 +12,7 @@ const meta = {
   title: 'Ecrans/Search', component: SearchView,
   parameters: { layout: 'fullscreen' },
   args: {
-    model: buildSearchModel(mockParcels, filters, 'camille@example.com'),
+    model: buildSearchModel(mockParcels, filters, 'camille@example.com'), impact: buildImpactModel(mockImpactMonths, '2027-10-15'),
     commune: { ...none, value: mockCommunes[0] }, radiusKm: 20, radiusOptions: [5, 10, 20, 50], maxPrice: '', activeCode: null, showRadius: true,
     onRadius: fn(), onMaxPrice: fn(), onBubble: fn(), onClearBubble: fn(), onOpen: fn(),
   },

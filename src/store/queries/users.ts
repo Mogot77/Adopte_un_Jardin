@@ -4,16 +4,11 @@ import { normRole } from '@/helpers/roles'
 import { nowIso } from '@/helpers/dates'
 import type { Commune, Profile } from '@/types'
 
-/** Administrateur d'origine : miroir des règles Firestore. */
-export const BOOTSTRAP_ADMIN = 'vallet.morgan@gmail.com'
-
 const COL = 'users'
-
-export const normEmail = (e: string): string => e.trim().toLowerCase()
 
 const str = (v: unknown): string => (typeof v === 'string' ? v : '')
 
-/** Lecture tolérante d'un document `users/{email}`. */
+/** Lecture tolérante d'une commune stockée. */
 export const toCommune = (v: unknown): Commune | null => {
   const c = v as Partial<Commune> | null
   return c && typeof c.code === 'string' && typeof c.nom === 'string' && typeof c.lat === 'number' && typeof c.lon === 'number'
@@ -35,9 +30,9 @@ export const toProfile = (email: string, d: Record<string, unknown>): Profile =>
 export type ProfileInput = Pick<Profile, 'name' | 'phone' | 'commune' | 'wantsGarden' | 'offersGarden'>
 
 /** Crée ou met à jour le profil du compte connecté. Le rôle d'un profil existant n'est jamais modifié. */
-export const saveProfile = async (email: string, input: ProfileInput, existing: Profile | null): Promise<void> => {
-  await setDoc(doc(db, COL, normEmail(email)), {
-    email: normEmail(email),
+export const saveProfile = async (uid: string, input: ProfileInput, existing: Profile | null): Promise<void> => {
+  await setDoc(doc(db, COL, uid), {
+    email: uid, // l'identité est l'uid anonyme (le champ garde son nom historique)
     name: input.name.trim(),
     phone: input.phone.trim(),
     commune: input.commune,

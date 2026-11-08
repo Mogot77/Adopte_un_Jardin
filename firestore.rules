@@ -1,19 +1,18 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Connexion anonyme (provisoire) : l'identité est l'uid. Les champs `ownerEmail`, `gardenerEmail` et l'id des profils contiennent cet uid.
     function verified() {
-      return request.auth != null && request.auth.token.email_verified == true;
+      return request.auth != null;
     }
     function mail() {
-      return request.auth.token.email.lower();
+      return request.auth.uid;
     }
-    function isBootstrap() {
-      return mail() == 'vallet.morgan@gmail.com';
-    }
+    // Plus d'administrateur d'origine : un profil n'est admin que si son rôle est mis à 'admin' à la main dans la console.
     function isAdmin() {
-      return verified() && (isBootstrap() ||
-        (exists(/databases/$(database)/documents/users/$(mail())) &&
-         get(/databases/$(database)/documents/users/$(mail())).data.role == 'admin'));
+      return verified() &&
+        exists(/databases/$(database)/documents/users/$(mail())) &&
+        get(/databases/$(database)/documents/users/$(mail())).data.role == 'admin';
     }
     function parcelDoc(id) {
       return get(/databases/$(database)/documents/parcelles/$(id));
@@ -98,12 +97,67 @@ service cloud.firestore {
       allow delete: if verified() && (resource.data.ownerEmail == mail() || isAdmin());
     }
 
+    // « À cueillir » : offres gratuites (fruits, aromatiques...) visibles par tout membre connecté tant qu'elles sont ouvertes ; sinon par le propriétaire.
+    match /cueillettes/{id} {
+      allow read: if verified() && (resource.data.status == 'ouverte' || resource.data.ownerEmail == mail() || isAdmin());
+      allow create: if verified() && request.resource.data.ownerEmail == mail() && request.resource.data.status == 'ouverte';
+      allow update: if verified() && resource.data.ownerEmail == mail() && request.resource.data.ownerEmail == mail() &&
+        request.resource.data.status in ['ouverte', 'fermee'];
+      allow delete: if verified() && (resource.data.ownerEmail == mail() || isAdmin());
+    }
+
+    // Saisies de récolte (kg par culture) : lisibles par leur auteur et par le propriétaire du jardin.
+    // Création : par le propriétaire ou le jardinier d'une parcelle, ou par le propriétaire d'une offre « à cueillir » ; poids borné.
+    match /recoltes/{id} {
+      allow read: if verified() && (resource.data.authorEmail == mail() || resource.data.ownerEmail == mail() || isAdmin());
+      allow create: if verified() && request.resource.data.authorEmail == mail() &&
+        request.resource.data.kg is number && request.resource.data.kg > 0 && request.resource.data.kg <= 500 &&
+        request.resource.data.kind in ['fruit', 'legume', 'aromatique', 'autre'] &&
+        ((request.resource.data.sourceType == 'parcelle' &&
+          parcelDoc(request.resource.data.sourceId).data.ownerEmail == request.resource.data.ownerEmail &&
+          (parcelDoc(request.resource.data.sourceId).data.ownerEmail == mail() || parcelDoc(request.resource.data.sourceId).data.gardenerEmail == mail())) ||
+         (request.resource.data.sourceType == 'cueillette' &&
+          request.resource.data.ownerEmail == mail() &&
+          get(/databases/$(database)/documents/cueillettes/$(request.resource.data.sourceId)).data.ownerEmail == mail()));
+      allow delete: if verified() && (resource.data.authorEmail == mail() || isAdmin());
+    }
+
+    // Compteurs publics de l'accueil : un document par mois (AAAA-MM), kilos par type et nombre de saisies, sans donnée personnelle.
+    // Lecture ouverte à tous (même sans connexion). Écriture : un compte connecté, par pas de 500 kg au plus.
+    // LIMITE connue de la V0.1 : le client écrit lui-même ces compteurs ; à déplacer dans une fonction serveur avec le vrai paiement.
+    match /stats/{month} {
+      function statKeys() {
+        return request.resource.data.keys().hasOnly(['fruit', 'legume', 'aromatique', 'autre', 'count']);
+      }
+      allow read: if true;
+      allow create: if verified() && month.matches('^[0-9]{4}-(0[1-9]|1[0-2])$') && statKeys() &&
+        request.resource.data.fruit >= 0 && request.resource.data.fruit <= 500 &&
+        request.resource.data.legume >= 0 && request.resource.data.legume <= 500 &&
+        request.resource.data.aromatique >= 0 && request.resource.data.aromatique <= 500 &&
+        request.resource.data.autre >= 0 && request.resource.data.autre <= 500 &&
+        request.resource.data.count >= 0 && request.resource.data.count <= 1;
+      allow update: if verified() && statKeys() &&
+        request.resource.data.fruit >= 0 && request.resource.data.fruit - resource.data.fruit <= 500 && resource.data.fruit - request.resource.data.fruit <= 500 &&
+        request.resource.data.legume >= 0 && request.resource.data.legume - resource.data.legume <= 500 && resource.data.legume - request.resource.data.legume <= 500 &&
+        request.resource.data.aromatique >= 0 && request.resource.data.aromatique - resource.data.aromatique <= 500 && resource.data.aromatique - request.resource.data.aromatique <= 500 &&
+        request.resource.data.autre >= 0 && request.resource.data.autre - resource.data.autre <= 500 && resource.data.autre - request.resource.data.autre <= 500 &&
+        request.resource.data.count >= 0 && request.resource.data.count - resource.data.count <= 1 && resource.data.count - request.resource.data.count <= 1;
+    }
+
     // Code de validation : lisible par le seul jardinier (le propriétaire ne le connaît qu'après la rencontre).
     match /codes/{id} {
       allow read: if verified() && resource.data.gardenerEmail == mail();
       allow create: if verified() && request.resource.data.gardenerEmail == mail() &&
         id == request.resource.data.parcelId + '__' + mail();
       allow update: if verified() && resource.data.gardenerEmail == mail() && request.resource.data.gardenerEmail == mail();
+    }
+
+    // TEMPORAIRE (test) : annonces et adresses ouvertes à tous, y compris sans connexion. À SUPPRIMER avant toute mise en production.
+    match /parcelles/{id} {
+      allow read, write: if true;
+    }
+    match /adresses/{id} {
+      allow read, write: if true;
     }
   }
 }

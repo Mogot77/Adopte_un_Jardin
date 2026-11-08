@@ -1,23 +1,17 @@
+import { useMemo } from 'react'
 import { useAuth } from '@/hooks/useAuth'
+import { useImpact } from '@/hooks/useImpact'
 import { useTheme } from '@/hooks/useTheme'
+import { buildImpactModel } from '@/components/ImpactBanner'
 import LoginView from './LoginView'
 
-/** Page d'accueil publique : présentation du service et connexion Google. */
+/** Page d'accueil publique : présentation du service, kilos récoltés depuis le lancement et entrée (connexion anonyme, provisoire). */
 const Login = () => {
-  const { user, access, login, logout, error } = useAuth()
+  const { login, error } = useAuth()
   const { theme, toggle } = useTheme()
-  const blocked = !!user && access === 'denied'
-  return (
-    <LoginView
-      theme={theme}
-      email={user?.email ?? undefined}
-      blocked={blocked ? 'denied' : undefined}
-      error={error}
-      onLogin={() => void login()}
-      onLogout={() => void logout()}
-      onToggleTheme={toggle}
-    />
-  )
+  const months = useImpact()
+  const impact = useMemo(() => buildImpactModel(months), [months])
+  return <LoginView theme={theme} impact={impact} error={error} onLogin={() => void login()} onToggleTheme={toggle} />
 }
 
 export default Login

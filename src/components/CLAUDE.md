@@ -17,7 +17,11 @@
 Chaque écran et chaque composant partagé a `X.stories.tsx` (titres `Ecrans/X`, `Composants/X`, `UI/X`), écrite sur la **vue** avec `fn()` de `storybook/test`. Une story n'importe ni le store, ni firebase, ni les hooks. Voir `src/stories/CLAUDE.md`.
 
 ## `ui/` : petits composants purs
-Actuellement `Button`, `Icon`, `Field`, `Chip`, `Empty`, `Note`, `Kv`, `PageHead`, `Toasts`, `CommuneSelect`, `ScheduleField`, `PhotoGallery`, `PhotoPicker`. Zéro logique métier, zéro accès au store ; pilotés par props. Avant d'écrire du balisage (bouton, carte, champ, en-tête), regarder s'il existe déjà ici ; en créer un dès qu'un élément est réutilisé par plusieurs composants.
+Actuellement `Button`, `Icon`, `Field`, `Chip`, `Empty`, `Note`, `Kv`, `PageHead`, `Toasts`, `CommuneSelect`, `ScheduleField`, `PhotoGallery`, `PhotoPicker`, `SeasonBar` (frise des 12 mois d'une période de cueillette). Zéro logique métier, zéro accès au store ; pilotés par props. Avant d'écrire du balisage (bouton, carte, champ, en-tête), regarder s'il existe déjà ici ; en créer un dès qu'un élément est réutilisé par plusieurs composants.
+
+## Composants partagés métier
+- `ImpactBanner` : infographie des kilos récoltés depuis le lancement (accueil `Login`, version réduite sur `Search`). Vue pure ; le conteneur lit `useImpact()` et construit le modèle avec `buildImpactModel`.
+- `ProductionStats` : « Production du jardin » (kg par culture), conteneur + vue. Une vue (`ParcelDetailView`, `HarvestDetailView`) ne peut pas importer un conteneur : le conteneur de l'écran le crée et le passe à la vue dans la prop `production` (un `ReactNode`).
 
 ## Style et thème
 Classes Tailwind dans le JSX et classes réutilisables d'`index.css` (`card`, `btn`, `chip`...). Couleurs par jetons (`bg-surface`, `text-ink`, `text-muted`, `border-line`, `bg-brand`...), jamais en hexadécimal : le thème sombre redéfinit ces jetons.

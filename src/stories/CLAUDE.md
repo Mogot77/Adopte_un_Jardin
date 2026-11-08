@@ -3,7 +3,7 @@
 Catalogue des composants : `npm run storybook` (http://localhost:6006). Configuration dans `.storybook/` (`main.ts`, `preview.tsx` avec bascule de thème dans la barre d'outils). Publié avec le site dans `/storybook` par le workflow de déploiement (`base: './'` pour fonctionner sous un sous-dossier).
 
 ## Données factices
-`mockData.ts` (réexporté par `index.ts`) : `mockCommunes`, `mockProfile`, `mockParcels`, `mockPrivate`, `mockReservations`. Les propriétaires des annonces sont `jean@example.com`, le jardinier `camille@example.com`. **Uniquement pour les stories** : ne jamais les importer depuis le code de l'application (les données réelles viennent de Firestore).
+`mockData.ts` (réexporté par `index.ts`) : `mockCommunes`, `mockProfile`, `mockParcels`, `mockPrivate`, `mockReservations`, `mockPlants`, `mockHarvests`, `mockYields`, `mockImpactMonths`. Pour « À cueillir », figer le mois (ex. `buildHarvestCard(mockHarvests[0], null, 10)`) afin que les stories ne dépendent pas de la date du jour. Les propriétaires des annonces sont `jean@example.com`, le jardinier `camille@example.com`. **Uniquement pour les stories** : ne jamais les importer depuis le code de l'application (les données réelles viennent de Firestore).
 
 ## Écrire une story
 - Fichier `X.stories.tsx` à côté du composant, titre `Ecrans/X`, `Composants/X` ou `UI/X`.

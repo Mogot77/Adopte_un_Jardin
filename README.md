@@ -15,7 +15,7 @@ Application web responsive (PC et téléphone) qui met en relation des **jardini
 | Langage | **TypeScript 6** (mode strict) |
 | Build / dev server | **Vite 8** + `@vitejs/plugin-react` |
 | Styles | **Tailwind CSS 4** + classes réutilisables dans `index.css`, thème clair/sombre par jetons CSS |
-| Authentification | **Firebase Auth** (connexion Google, e-mail vérifié) |
+| Authentification | **Firebase Auth** (connexion anonyme, provisoire) |
 | Base de données | **Cloud Firestore** |
 | Carte | **Leaflet** + OpenStreetMap ; communes via l'API publique geo.api.gouv.fr |
 | Photos | **Cloudinary** (facultatif, preset *unsigned*) |
@@ -50,10 +50,10 @@ Sous Windows, `lancer.bat` installe les dépendances si besoin et ouvre le navig
 
 ### Configuration (`.env.local`)
 
-1. Créer un projet Firebase ; activer **Authentication > Google** et **Firestore** (région `eur3`).
+1. Créer un projet Firebase ; activer **Authentication > Anonyme** et **Firestore** (région `eur3`).
 2. Copier la config web (Paramètres du projet > Vos applications) dans `.env.local` (`VITE_FIREBASE_*`). Pour les photos : créer un compte Cloudinary et un preset *unsigned*, puis renseigner `VITE_CLOUDINARY_*` (facultatif).
 3. Publier `firestore.rules` dans la console Firestore (idéalement après les avoir testées sur l'émulateur).
-4. L'inscription est ouverte à tout compte Google à e-mail vérifié (profil créé à la première connexion). L'administrateur d'origine est reconnu d'office dans les règles.
+4. L'inscription est ouverte à tout visiteur (compte anonyme, profil créé à la première connexion). L'identité est perdue si le navigateur efface ses données. Il n'y a plus d'administrateur d'origine : passer le champ `role` d'un profil à `admin` dans la console.
 5. En production : renseigner les mêmes valeurs dans *Settings > Secrets and variables > Actions > Variables* du dépôt GitHub, et activer GitHub Pages (source : GitHub Actions).
 
 ### Commandes

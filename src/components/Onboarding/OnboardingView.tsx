@@ -4,10 +4,10 @@ import Field from '@/components/ui/Field'
 import type { OnboardingViewProps } from './types'
 
 /** Inscription (vue) : coordonnées de base et choix des usages. */
-const OnboardingView = ({ email, form, commune, saving, error, onChange, onSubmit }: OnboardingViewProps) => (
+const OnboardingView = ({ form, commune, saving, error, onChange, onSubmit }: OnboardingViewProps) => (
   <main className="mx-auto max-w-xl p-6">
     <h1>Bienvenue !</h1>
-    <p className="muted mb-5 mt-1">Quelques informations pour créer votre profil ({email}).</p>
+    <p className="muted mb-5 mt-1">Quelques informations pour créer votre profil.</p>
     <form className="card pad stack" onSubmit={e => { e.preventDefault(); onSubmit() }}>
       <Field label="Nom affiché"><input className="in" value={form.name} onChange={e => onChange({ name: e.target.value })} autoComplete="name" /></Field>
       <Field label="Téléphone (facultatif)" hint="Communiqué seulement à la personne avec qui vous concluez une location.">

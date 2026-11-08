@@ -8,7 +8,6 @@ export type OnboardingForm = {
 }
 
 export type OnboardingViewProps = {
-  email: string
   form: OnboardingForm
   commune: CommuneSelectProps
   saving: boolean

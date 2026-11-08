@@ -15,7 +15,7 @@ const MapView = ({ center, zoom, bubbles, activeId = null, radiusKm, onSelect }:
 
   useEffect(() => {
     if (!host.current) return
-    const m = L.map(host.current, { scrollWheelZoom: false }).setView([center.lat, center.lon], zoom)
+    const m = L.map(host.current, { scrollWheelZoom: true }).setView([center.lat, center.lon], zoom)
     L.tileLayer(MAP_TILES, { attribution: MAP_ATTRIBUTION, maxZoom: 18 }).addTo(m)
     layer.current = L.layerGroup().addTo(m)
     map.current = m

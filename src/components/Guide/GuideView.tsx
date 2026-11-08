@@ -55,6 +55,23 @@ const GuideView = ({ model }: GuideViewProps) => (
         </ol>
         <p className="muted mt-2">Les dons sont strictement gratuits, sans commission. Retrouvez-vous dans un lieu public.</p>
       </section>
+      <section className="card pad">
+        <h2 className="h2s">Je cueille ou je fais cueillir</h2>
+        <ol className="m-0 list-decimal pl-5 leading-relaxed">
+          <li>Dans « À cueillir », je trouve des fruits, aromatiques ou légumes à ramasser près de chez moi ; ceux de saison sont en tête.</li>
+          <li>Sur la fiche, la frise des 12 mois m'indique la période de chaque arbre ou plante. J'écris au propriétaire pour convenir d'un moment.</li>
+          <li>Pour proposer, je liste mes arbres et plantes avec leurs mois de cueillette, et les jours et heures où l'on peut venir. Quand il n'y a plus rien, je clique sur « Plus rien à cueillir : récolte réussie ! ».</li>
+        </ol>
+        <p className="muted mt-2">C'est gratuit et sans commission. On cueille raisonnablement, on remercie, on ne revend pas.</p>
+      </section>
+      <section className="card pad">
+        <h2 className="h2s">Je note ma production</h2>
+        <ol className="m-0 list-decimal pl-5 leading-relaxed">
+          <li>Sur la fiche de ma parcelle ou de mon offre, dans « Production du jardin », je choisis la culture (cerises, courgettes, tomates…), le poids en kilos et la date.</li>
+          <li>Je vois mes totaux par culture. Le propriétaire voit aussi les récoltes de son jardin.</li>
+          <li>Chaque saisie s'ajoute au compteur de l'accueil : les kilos de fruits et de légumes récoltés depuis le lancement.</li>
+        </ol>
+      </section>
       <Note tone="warn">Version de démonstration : le paiement est simulé, les e-mails de confirmation ne sont pas encore envoyés et les versements sont à effectuer manuellement.</Note>
     </div>
   </>

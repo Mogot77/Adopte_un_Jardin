@@ -1,5 +1,7 @@
 # Adopte un Jardin
 
+🔗 Dépôt : https://github.com/Mogot77/Adopte_un_Jardin · Site : https://mogot77.github.io/Adopte_un_Jardin/
+
 Application web responsive (PC et téléphone) qui met en relation des **jardiniers** à la recherche d'une parcelle et des **propriétaires** qui louent une partie de leur jardin. Slogan : « Planter, récolter, économiser ».
 
 > **V0.1** : recherche par commune avec carte, dépôt d'annonce, réservation avec **paiement simulé**, code de validation, tableaux de bord propriétaire et jardinier. Concept et périmètre : [docs/analyse-ancien-projet.md](docs/analyse-ancien-projet.md).

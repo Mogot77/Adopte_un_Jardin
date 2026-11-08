@@ -1,5 +1,5 @@
 import { TODAY } from '@/helpers/dates'
-import { buildImpact, fmtKg } from '@/helpers/production'
+import { buildImpact, estimateSavings, fmtCo2, fmtKg } from '@/helpers/production'
 import type { ImpactMonth } from '@/types'
 import type { ImpactModel } from './types'
 
@@ -8,10 +8,13 @@ const pct = (part: number, whole: number): number => (whole > 0 ? (part / whole)
 /** Modèle de l'infographie : totaux depuis le lancement et évolution des douze derniers mois. */
 export const buildImpactModel = (months: ImpactMonth[], today: string = TODAY): ImpactModel => {
   const { totals, bars } = buildImpact(months, today)
+  const saved = estimateSavings(totals)
   const maxBar = Math.max(0, ...bars.map(b => b.total))
   return {
     totalLabel: fmtKg(totals.all),
     isEmpty: totals.all <= 0,
+    savedEurLabel: `${Math.round(saved.eur).toLocaleString('fr-FR')} €`,
+    co2Label: fmtCo2(saved.co2Kg),
     harvestsLabel: `${Math.round(totals.count)} récolte${totals.count >= 2 ? 's' : ''} notée${totals.count >= 2 ? 's' : ''}`,
     counters: [
       { key: 'fruit', label: 'de fruits', kgLabel: fmtKg(totals.fruit) },

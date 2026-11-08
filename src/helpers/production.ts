@@ -89,3 +89,22 @@ export const buildImpact = (months: ImpactMonth[], today: string = TODAY): { tot
   })
   return { totals, bars }
 }
+
+/** Prix moyen de détail estimé par kilo (€), pour chiffrer ce que les récoltes ont fait économiser. Ordre de grandeur, pas une mesure. */
+export const EUR_PER_KG = { fruit: 3.5, legume: 3, other: 6 } as const
+
+/** Émissions évitées par kilo récolté (kg de CO₂ équivalent) : production, transport et emballage d'un produit acheté, d'après les ordres de grandeur ADEME pour fruits et légumes de saison. Estimation prudente. */
+export const CO2_KG_PER_KG = 0.5
+
+/** Estimation des euros économisés et du CO₂ évité, à partir des kilos par type. */
+export const estimateSavings = (t: { fruit: number; legume: number; other: number }): { eur: number; co2Kg: number } => ({
+  eur: t.fruit * EUR_PER_KG.fruit + t.legume * EUR_PER_KG.legume + t.other * EUR_PER_KG.other,
+  co2Kg: (t.fruit + t.legume + t.other) * CO2_KG_PER_KG,
+})
+
+/** « 480 kg » en dessous d'une tonne, « 1,2 tonne » / « 3,4 tonnes » au-delà. */
+export const fmtCo2 = (kg: number): string => {
+  if (kg < 1000) return `${Math.round(kg).toLocaleString('fr-FR')} kg`
+  const t = Math.round(kg / 100) / 10
+  return `${t.toLocaleString('fr-FR', { maximumFractionDigits: 1 })} tonne${t >= 2 ? 's' : ''}`
+}

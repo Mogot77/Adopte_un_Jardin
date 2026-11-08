@@ -25,6 +25,10 @@ export type ImpactModel = {
   totalLabel: string
   /** Vrai tant qu'aucune récolte n'est comptée. */
   isEmpty: boolean
+  /** Euros économisés (estimation), formaté (« 1 250 € »). */
+  savedEurLabel: string
+  /** CO₂ évité (estimation), formaté (« 1,2 tonne »). */
+  co2Label: string
   harvestsLabel: string
   counters: ImpactCounter[]
   bars: ImpactBarModel[]

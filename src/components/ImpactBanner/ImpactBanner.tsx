@@ -18,6 +18,18 @@ const ImpactBanner = ({ model: m, compact = false }: ImpactBannerProps) => (
       ))}
     </ul>
 
+    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+      <div className="rounded-lg bg-brand-bg px-4 py-3">
+        <p className="m-0 text-2xl font-bold text-brand">≈ {m.savedEurLabel}</p>
+        <p className="muted m-0 text-[13px]">économisés sur les courses de fruits et légumes</p>
+      </div>
+      <div className="rounded-lg bg-brand-bg px-4 py-3">
+        <p className="m-0 text-2xl font-bold text-brand">≈ {m.co2Label}</p>
+        <p className="muted m-0 text-[13px]">de CO₂ évité (production, transport, emballage)</p>
+      </div>
+    </div>
+    <p className="muted m-0 mt-2 text-[12px]">Estimations : environ 3 à 6 € le kilo selon le type de produit, et 0,5 kg de CO₂ évité par kilo récolté.</p>
+
     {!compact && (
       <figure className="m-0 mt-5">
         <div className="flex h-24 items-end gap-1" role="img" aria-label={`Kilos récoltés par mois sur les douze derniers mois, ${m.totalLabel} en tout`}>

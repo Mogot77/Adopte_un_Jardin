@@ -10,7 +10,7 @@ Fonctions utilisées par **plusieurs** composants (ou par le store). Une fonctio
 - `schedule.ts` : jours et plages horaires d'accès (`formatAccess` donne le résumé « Lun–Ven 8h–20h »), utilisé par `ui/ScheduleField` et par la validation du dépôt.
 - `plants.ts` : échange de plantes (natures, `quantityLabel`, `filterPlants`, `plantIssues`).
 - `harvests.ts` : « À cueillir ». Essences, `isInSeason` (la période peut enjamber le 31 décembre : novembre → février), `seasonState` (maintenant / bientôt / plus tard), `offerState`, `seasonLabel`, `filterHarvests` (ce qui est à cueillir en premier, puis le plus proche), `harvestIssues`. Le mois courant vient de `monthOf()` (donc de `TODAY`, forçable par `VITE_TODAY`).
-- `production.ts` : saisie des récoltes (`yieldIssues`, `MAX_KG`, `CROP_SUGGESTIONS`, `kindForCrop`), `totalsByCrop`, `fmtKg`, et `buildImpact` (totaux depuis le lancement + douze derniers mois pour l'infographie de l'accueil).
+- `production.ts` : saisie des récoltes (`yieldIssues`, `MAX_KG`, `CROP_SUGGESTIONS`, `kindForCrop`), `totalsByCrop`, `fmtKg`, `estimateSavings` (€ économisés et CO₂ évité, hypothèses `EUR_PER_KG` et `CO2_KG_PER_KG`), et `buildImpact` (totaux depuis le lancement + douze derniers mois pour l'infographie de l'accueil).
 - `photos.ts` : redimensionnement et envoi Cloudinary (désactivé sans configuration).
 - `theme.ts` : choix clair/sombre (le hook est dans `hooks/useTheme.ts`). `roles.ts` : rôles des comptes.
 

@@ -9,7 +9,7 @@ const TODAY = '2027-10-15'
 const meta = {
   title: 'Ecrans/Login', component: LoginView,
   parameters: { layout: 'fullscreen' },
-  args: { theme: 'light', impact: buildImpactModel(mockImpactMonths, TODAY), onLogin: fn(), onToggleTheme: fn() },
+  args: { theme: 'light', tagline: 'Prêt à remettre les mains dans la terre ?', impact: buildImpactModel(mockImpactMonths, TODAY), onLogin: fn(), onToggleTheme: fn() },
 } satisfies Meta<typeof LoginView>
 export default meta
 type Story = StoryObj<typeof meta>

@@ -6,6 +6,8 @@ export type LoginIntent = 'search' | 'offer'
 
 export type LoginViewProps = {
   theme: Theme
+  /** Phrase d'accroche affichée en haut à droite (change à intervalle régulier). */
+  tagline: string
   /** Infographie des kilos récoltés depuis le lancement. */
   impact: ImpactModel
   error?: string

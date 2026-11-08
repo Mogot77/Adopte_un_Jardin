@@ -33,3 +33,14 @@ export const THEMES: (Step & { badge: string })[] = [
   { icon: 'basket', badge: 'Gratuit', title: 'À cueillir', text: 'Un cerisier qui déborde, du thym à volonté : venez cueillir, rien ne se perd.' },
   { icon: 'leaf', badge: 'Ensemble', title: 'Récoltes du réseau', text: 'Chaque jardin note ses kilos : on voit grandir la récolte commune.' },
 ]
+
+/** Phrases d'accroche affichées en haut à droite, à tour de rôle (jeux de mots). La première est la phrase d'origine. */
+export const TAGLINES: string[] = [
+  'Prêt à remettre les mains dans la terre ?',
+  'Les bons plants font les bons voisins.',
+  'Semez le bonheur, récoltez des sourires.',
+  'Ici, on ne vous raconte pas de salades.',
+  'Un jardin, ça se partage et ça se bêche à plusieurs.',
+  'Pas de terrain ? Pas de souci, on a des racines.',
+  'Tout vient à point à qui sait planter.',
+]

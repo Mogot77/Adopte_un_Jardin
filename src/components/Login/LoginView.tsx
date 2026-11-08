@@ -27,14 +27,17 @@ const Flow = ({ title, tone, steps }: { title: string; tone: string; steps: Step
 )
 
 /** Accueil public (vue) : bandeau d'accueil avec les deux entrées (chercher / proposer), engagements, parcours schématiques, rubriques et récoltes du réseau. */
-const LoginView = ({ theme, impact, error, onLogin, onToggleTheme }: LoginViewProps) => (
+const LoginView = ({ theme, tagline, impact, error, onLogin, onToggleTheme }: LoginViewProps) => (
   <div className="min-h-screen">
     <header className="mx-auto flex max-w-5xl items-center justify-between gap-3 px-4 py-4">
       <div className="flex items-center gap-2 text-brand"><Icon name="leaf" size={28} /><span className="text-xl font-bold">Adopte un Jardin</span></div>
-      <button
-        type="button" className="grid size-8 place-items-center rounded-lg border border-field bg-surface text-ink"
-        aria-label={theme === 'dark' ? 'Passer au thème clair' : 'Passer au thème sombre'} onClick={onToggleTheme}
-      ><Icon name={theme === 'dark' ? 'sun' : 'moon'} /></button>
+      <div className="flex min-w-0 items-center gap-3">
+        <p className="m-0 max-w-[15rem] text-right text-[13px] font-semibold italic leading-tight text-brand sm:max-w-none sm:text-sm" aria-live="polite">{tagline}</p>
+        <button
+          type="button" className="grid size-8 shrink-0 place-items-center rounded-lg border border-field bg-surface text-ink"
+          aria-label={theme === 'dark' ? 'Passer au thème clair' : 'Passer au thème sombre'} onClick={onToggleTheme}
+        ><Icon name={theme === 'dark' ? 'sun' : 'moon'} /></button>
+      </div>
     </header>
 
     <main className="mx-auto flex max-w-5xl flex-col gap-10 px-4 pb-12">
@@ -107,7 +110,7 @@ const LoginView = ({ theme, impact, error, onLogin, onToggleTheme }: LoginViewPr
       <ImpactBanner model={impact} />
 
       <section className="flex flex-col items-center gap-3 rounded-2xl bg-brand-soft p-8 text-center">
-        <h2 className="m-0 text-2xl font-bold">Prêt à mettre les mains dans la terre ?</h2>
+        <h2 className="m-0 text-2xl font-bold">Alors, on se lance ?</h2>
         <p className="muted m-0 max-w-md text-sm">Entrez, découvrez les jardins autour de vous, ou déposez le vôtre en quelques minutes.</p>
         <div className="row justify-center">
           <Button variant="primary" onClick={() => onLogin('search')}>Je cherche un jardin</Button>

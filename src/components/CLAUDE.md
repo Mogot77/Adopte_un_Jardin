@@ -17,7 +17,7 @@
 Chaque écran et chaque composant partagé a `X.stories.tsx` (titres `Ecrans/X`, `Composants/X`, `UI/X`), écrite sur la **vue** avec `fn()` de `storybook/test`. Une story n'importe ni le store, ni firebase, ni les hooks. Voir `src/stories/CLAUDE.md`.
 
 ## `ui/` : petits composants purs
-Actuellement `Button`, `Icon`, `Field`, `Chip`, `Empty`, `Note`, `Kv`, `PageHead`, `Toasts`, `CommuneSelect`, `ScheduleField`, `PhotoGallery`, `PhotoPicker`, `SeasonBar` (frise des 12 mois d'une période de cueillette). Zéro logique métier, zéro accès au store ; pilotés par props. Avant d'écrire du balisage (bouton, carte, champ, en-tête), regarder s'il existe déjà ici ; en créer un dès qu'un élément est réutilisé par plusieurs composants.
+Actuellement `Button`, `Icon` (dont `shield`, `home`, `basket`, `sprout`...), `Field`, `Chip`, `Empty`, `Note`, `Kv`, `PageHead`, `Toasts`, `CommuneSelect`, `ScheduleField`, `PhotoGallery`, `PhotoPicker`, `SeasonBar` (frise des 12 mois d'une période de cueillette). Zéro logique métier, zéro accès au store ; pilotés par props. Avant d'écrire du balisage (bouton, carte, champ, en-tête), regarder s'il existe déjà ici ; en créer un dès qu'un élément est réutilisé par plusieurs composants.
 
 ## Composants partagés métier
 - `ImpactBanner` : infographie des kilos récoltés depuis le lancement (accueil `Login`, version réduite sur `Search`). Vue pure ; le conteneur lit `useImpact()` et construit le modèle avec `buildImpactModel`.
